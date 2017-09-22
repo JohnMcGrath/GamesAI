@@ -1,0 +1,5 @@
+﻿  Game.cpp
+c:\users\mcgra\documents\visual studio 2017\projects\ai_lab1\ai_lab1\game.cpp(101): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\mcgra\documents\visual studio 2017\projects\ai_lab1\ai_lab1\game.cpp(112): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  AI_Lab1.vcxproj -> C:\Users\mcgra\Documents\Visual Studio 2017\Projects\AI_Lab1\Debug\AI_Lab1.exe
+  AI_Lab1.vcxproj -> C:\Users\mcgra\Documents\Visual Studio 2017\Projects\AI_Lab1\Debug\AI_Lab1.pdb (Partial PDB)
