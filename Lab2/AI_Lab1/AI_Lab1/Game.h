@@ -32,8 +32,8 @@ private:
 
 	sf::RectangleShape rect;
 	int rectVelocityX = 0;
-	int rectVelocityY = 3;
-	bool rectFlip = false;
+	int rectVelocityY = 0;
+	int rectMaxSpeed = 3;
 
 	sf::CircleShape circ;
 	int circVelocityX = 3;

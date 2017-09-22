@@ -66,6 +66,14 @@ void Game::processEvents()
 			{
 				rectVelocityY++;
 			}
+			if (sf::Keyboard::Left == event.key.code)
+			{
+				rectVelocityX--;
+			}
+			if (sf::Keyboard::Right == event.key.code)
+			{
+				rectVelocityX++;
+			}
 		}
 	}
 }
@@ -94,6 +102,23 @@ void Game::update(sf::Time t_deltaTime)
 
 	int temp = sqrt((x2_x1*x2_x1) + (y2_y1*y2_y1));
 	std::cout << temp << std::endl;
+
+	if (rectVelocityX > rectMaxSpeed)
+	{
+		rectVelocityX = rectMaxSpeed;
+	}
+	else if (rectVelocityX < -rectMaxSpeed)
+	{
+		rectVelocityX = -rectMaxSpeed;
+	}
+	if (rectVelocityY > rectMaxSpeed)
+	{
+		rectVelocityY = rectMaxSpeed;
+	}
+	else if (rectVelocityY < -rectMaxSpeed)
+	{
+		rectVelocityY = -rectMaxSpeed;
+	}
 
 	if (sqrt((x2_x1*x2_x1) + (y2_y1*y2_y1))>600)
 	{
