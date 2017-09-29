@@ -60,19 +60,19 @@ void Game::processEvents()
 			}
 			if (sf::Keyboard::Up == event.key.code)
 			{
-				rectVelocityY--;
+				rectVelocity.y -= 1;
 			}
 			if (sf::Keyboard::Down == event.key.code)
 			{
-				rectVelocityY++;
+				rectVelocity.y+=1;
 			}
 			if (sf::Keyboard::Left == event.key.code)
 			{
-				rectVelocityX--;
+				rectVelocity.x-=1;
 			}
 			if (sf::Keyboard::Right == event.key.code)
 			{
-				rectVelocityX++;
+				rectVelocity.x+=1;
 			}
 		}
 	}
@@ -84,8 +84,8 @@ void Game::processEvents()
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
-	rect.setPosition(sf::Vector2f(rect.getPosition().x + rectVelocityX, rect.getPosition().y + rectVelocityY));
-	circ.setPosition(sf::Vector2f(circ.getPosition().x + circVelocityX, circ.getPosition().y + circVelocityY));
+	rect.setPosition(sf::Vector2f(rect.getPosition().x + rectVelocity.x, rect.getPosition().y + rectVelocity.y));
+	circ.setPosition(sf::Vector2f(circ.getPosition().x + circleVelocity.x, circ.getPosition().y + circleVelocity.y));
 
 	if (circ.getPosition().x > m_window.getSize().x)
 	{
@@ -103,52 +103,11 @@ void Game::update(sf::Time t_deltaTime)
 	int temp = sqrt((x2_x1*x2_x1) + (y2_y1*y2_y1));
 	std::cout << temp << std::endl;
 
-	if (rectVelocityX > rectMaxSpeed)
-	{
-		rectVelocityX = rectMaxSpeed;
-	}
-	else if (rectVelocityX < -rectMaxSpeed)
-	{
-		rectVelocityX = -rectMaxSpeed;
-	}
-	if (rectVelocityY > rectMaxSpeed)
-	{
-		rectVelocityY = rectMaxSpeed;
-	}
-	else if (rectVelocityY < -rectMaxSpeed)
-	{
-		rectVelocityY = -rectMaxSpeed;
-	}
 
 	if (sqrt((x2_x1*x2_x1) + (y2_y1*y2_y1))>600)
 	{
-		rectVelocityX = -rectVelocityX;
-		rectVelocityY = -rectVelocityY;
+		rectVelocity = -rectVelocity;
 	}
-
-
-	/*if (rect.getPosition().x > m_window.getSize().x)
-	{
-		rect.setPosition(sf::Vector2f(0, rect.getPosition().y));
-		std::cout << "TTTTTTT" << std::endl;
-	}
-	
-	if (rect.getPosition().x < 0)
-	{
-		rect.setPosition(sf::Vector2f(m_window.getSize().x, rect.getPosition().y));
-		std::cout << "TTTTTTT" << std::endl;
-	}
-
-	if (rect.getPosition().y > m_window.getSize().y)
-	{
-		rect.setPosition(sf::Vector2f(rect.getPosition().x, 0));
-		std::cout << "Reset to top" << std::endl;
-	}
-	if (rect.getPosition().y < 0)
-	{
-		rect.setPosition(sf::Vector2f(rect.getPosition().y, m_window.getSize().y));
-		std::cout << "TTTTTTT" << std::endl;
-	}*/
 
 	if (m_exitGame)
 	{
@@ -209,4 +168,8 @@ void Game::setupSprite()
 	circ.setFillColor(sf::Color::Blue);
 	circ.setRadius(25);
 	circ.setPosition(100, 30);
+}
+
+void Game::seek(sf::RectangleShape user, sf::CircleShape target) {
+
 }

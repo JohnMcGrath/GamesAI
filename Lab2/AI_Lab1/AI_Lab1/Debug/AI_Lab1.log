@@ -1,6 +1,10 @@
 ﻿  Game.cpp
-c:\users\mcgra\desktop\aifourtyear\lab2\ai_lab1\ai_lab1\game.cpp(100): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\mcgra\desktop\aifourtyear\lab2\ai_lab1\ai_lab1\game.cpp(101): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\mcgra\desktop\aifourtyear\lab2\ai_lab1\ai_lab1\game.cpp(103): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  AI_Lab1.vcxproj -> C:\Users\mcgra\Desktop\AIFourtYear\Lab2\AI_Lab1\Debug\AI_Lab1.exe
-  AI_Lab1.vcxproj -> C:\Users\mcgra\Desktop\AIFourtYear\Lab2\AI_Lab1\Debug\AI_Lab1.pdb (Partial PDB)
+c:\users\mcgra\desktop\gamesai\gamesai\lab2\ai_lab1\ai_lab1\game.cpp(100): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\mcgra\desktop\gamesai\gamesai\lab2\ai_lab1\ai_lab1\game.cpp(101): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\mcgra\desktop\gamesai\gamesai\lab2\ai_lab1\ai_lab1\game.cpp(103): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\mcgra\desktop\gamesai\gamesai\lab2\ai_lab1\ai_lab1\game.cpp(173): error C2511: 'void Game::seek(sf::RectangleShape,sf::CircleShape)': overloaded member function not found in 'Game'
+  c:\users\mcgra\desktop\gamesai\gamesai\lab2\ai_lab1\ai_lab1\game.h(8): note: see declaration of 'Game'
+  Generating Code...
+  Compiling...
+  main.cpp
+  Generating Code...

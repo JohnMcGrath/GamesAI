@@ -31,13 +31,15 @@ private:
 	bool m_exitGame; // control exiting game
 
 	sf::RectangleShape rect;
-	int rectVelocityX = 0;
-	int rectVelocityY = 0;
+	sf::Vector2f rectVelocity = sf::Vector2f(0,0);
 	int rectMaxSpeed = 3;
 
 	sf::CircleShape circ;
-	int circVelocityX = 3;
-	int circVelocityY = 0;
+	sf::Vector2f circleVelocity = sf::Vector2f(0, 0);
+
+	void seek(sf::RectangleShape user, sf::RectangleShape target)
+	{
+	}
 };
 
 #endif // !GAME
