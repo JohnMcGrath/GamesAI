@@ -5,12 +5,19 @@
 class PhysicsObject
 {
 public:
+	sf::Event event;
+
 	PhysicsObject();
 	~PhysicsObject();
 
+	void Update();
 	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }
 	void setPosition(sf::Vector2f newPosition) { m_position = newPosition; }
 	void setOrientation(sf::Vector2f newOrientation) { m_orientation = newOrientation; }
+
+	sf::Vector2f getVelocity() { return m_velocity; }
+	sf::Vector2f getPosition() { return m_position; }
+	sf::Vector2f getOrientation() { return m_orientation; }
 
 private:
 	sf::Vector2f m_velocity;

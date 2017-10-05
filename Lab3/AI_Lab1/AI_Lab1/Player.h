@@ -5,4 +5,5 @@ class Player : public PhysicsObject
 {
 public:
 	void HandleInput();
+	void Update();
 };
