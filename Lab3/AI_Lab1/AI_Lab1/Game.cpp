@@ -3,6 +3,7 @@
 #include "Game.h"
 #include <iostream>
 #include "math.h"
+#include "Player.h"
 
 
 
@@ -25,6 +26,13 @@ void Game::run()
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	sf::Time timePerFrame = sf::seconds(1.f / 60.f); // 60 fps
+
+	m_player->Initialise();
+
+	//Player tempPlayer;
+
+	//m_player = tempPlayer;
+
 	while (m_window.isOpen())
 	{
 		processEvents(); // as many as possible
@@ -48,6 +56,7 @@ void Game::processEvents()
 	sf::Event event;
 	while (m_window.pollEvent(event))
 	{
+		m_player->HandleInput(event);
 		if ( sf::Event::Closed == event.type) // window message
 		{
 			m_window.close();
@@ -57,22 +66,6 @@ void Game::processEvents()
 			if (sf::Keyboard::Escape == event.key.code)
 			{
 				m_exitGame = true;
-			}
-			if (sf::Keyboard::Up == event.key.code)
-			{
-				rectVelocity.y -= 1;
-			}
-			if (sf::Keyboard::Down == event.key.code)
-			{
-				rectVelocity.y+=1;
-			}
-			if (sf::Keyboard::Left == event.key.code)
-			{
-				rectVelocity.x-=1;
-			}
-			if (sf::Keyboard::Right == event.key.code)
-			{
-				rectVelocity.x+=1;
 			}
 		}
 	}
@@ -84,10 +77,7 @@ void Game::processEvents()
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
-	rect.setPosition(sf::Vector2f(rect.getPosition().x + rectVelocity.x, rect.getPosition().y + rectVelocity.y));
-	circ.setPosition(sf::Vector2f(circ.getPosition().x + circleVelocity.x, circ.getPosition().y + circleVelocity.y));
-
-	if (circ.getPosition().x > m_window.getSize().x)
+	/*if (circ.getPosition().x > m_window.getSize().x)
 	{
 		circ.setPosition(sf::Vector2f(0 - circ.getGlobalBounds().width, circ.getPosition().y));
 	}
@@ -107,7 +97,9 @@ void Game::update(sf::Time t_deltaTime)
 	if (sqrt((x2_x1*x2_x1) + (y2_y1*y2_y1))>600)
 	{
 		rectVelocity = -rectVelocity;
-	}
+	}*/
+	
+	m_player->Update();
 
 	if (m_exitGame)
 	{
@@ -123,8 +115,8 @@ void Game::render()
 	m_window.clear(sf::Color::White);
 	m_window.draw(m_welcomeMessage);
 	m_window.draw(m_logoSprite);
-	m_window.draw(circ);
-	m_window.draw(rect);
+	m_window.draw(m_player->getSprite());
+	//m_window.draw(rect);
 	m_window.display();
 }
 
@@ -161,15 +153,11 @@ void Game::setupSprite()
 	m_logoSprite.setTexture(m_logoTexture);
 	m_logoSprite.setPosition(300.0f, 180.0f);
 
-	rect.setFillColor(sf::Color::Red);
+/*	rect.setFillColor(sf::Color::Red);
 	rect.setSize(sf::Vector2f(50, 50));
 	rect.setPosition(30, 30);
 
 	circ.setFillColor(sf::Color::Blue);
 	circ.setRadius(25);
-	circ.setPosition(100, 30);
+	circ.setPosition(100, 30);*/
 }
-
-//void Game::seek(sf::RectangleShape user, sf::CircleShape target) {
-
-//}

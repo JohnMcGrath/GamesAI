@@ -3,10 +3,53 @@
 #define GAME
 
 #include <SFML/Graphics.hpp>
+#include "PhysicsObject.h"
+//#include "Player.h"
+#include <iostream>
+
+class Player
+{
+public:
+	Player();
+	~Player();
+
+	//sf::Event event;
+
+
+
+	void HandleInput(sf::Event);
+	void Initialise();
+	void Update();
+	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }
+	void setPosition(sf::Vector2f newPosition) { m_position = newPosition; }
+	void setOrientation(sf::Vector2f newOrientation) { m_orientation = newOrientation; }
+
+	sf::Vector2f getVelocity() { return m_velocity; }
+	sf::Vector2f getPosition() { return m_position; }
+	sf::Vector2f getOrientation() { return m_orientation; }
+
+	void setTexture(sf::Texture newTexture) { m_texture = newTexture; }
+	void setSprite(sf::Sprite newSprite) { m_sprite = newSprite; }
+
+	sf::Texture getTexture() { return m_texture; }
+	sf::Sprite getSprite() { return m_sprite; }
+
+private:
+	sf::Vector2f m_velocity;
+	sf::Vector2f m_position;
+	sf::Vector2f m_orientation;
+
+	sf::Texture m_texture;
+	sf::Sprite m_sprite;
+};
 
 class Game
 {
+
 public:
+
+	Player * m_player = new Player;
+
 	Game();
 	~Game();
 	/// <summary>
@@ -30,16 +73,6 @@ private:
 	sf::Sprite m_logoSprite; // sprite used for sfml logo
 	bool m_exitGame; // control exiting game
 
-	sf::RectangleShape rect;
-	sf::Vector2f rectVelocity = sf::Vector2f(0,0);
-	int rectMaxSpeed = 3;
-
-	sf::CircleShape circ;
-	sf::Vector2f circleVelocity = sf::Vector2f(0, 0);
-
-	void seek(sf::RectangleShape user, sf::RectangleShape target)
-	{
-	}
 };
 
 #endif // !GAME
