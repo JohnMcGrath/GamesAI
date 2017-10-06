@@ -1,3 +1,4 @@
-﻿  Enemy.cpp
+﻿  Game.cpp
+c:\users\user\desktop\gitclonefolder\gamesai\lab3\ai_lab1\ai_lab1\game.cpp(13): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\GitCloneFolder\GamesAI\Lab3\AI_Lab1\Debug\AI_Lab1.exe
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\GitCloneFolder\GamesAI\Lab3\AI_Lab1\Debug\AI_Lab1.pdb (Partial PDB)

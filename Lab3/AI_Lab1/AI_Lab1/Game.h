@@ -4,7 +4,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "PhysicsObject.h"
-//#include "Player.h"
 #include <iostream>
 
 
@@ -20,12 +19,15 @@ public:
 
 	void HandleInput(sf::Vector2f t);
 	void Initialise();
-	void Update(sf::Vector2f t);
+	void Update(sf::Vector2f t, sf::Vector2f screenSize);
 	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }
 	void setPosition(sf::Vector2f newPosition) { m_position = newPosition; }
 	void setOrientation(sf::Vector2f newOrientation) { m_orientation = newOrientation; }
 
+	void WrapAround(sf::Vector2f screenSize);
+
 	float Magnitude(sf::Vector2f v);
+	float Distance(sf::Vector2f t);
 	sf::Vector2f Normalise(sf::Vector2f v);
 
 	sf::Vector2f getVelocity() { return m_velocity; }
@@ -62,11 +64,16 @@ public:
 
 	void HandleInput(sf::Event);
 	void Initialise();
-	void Update();
+	void Update(sf::Vector2f centrePoint);
 	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }
 	void setPosition(sf::Vector2f newPosition) { m_position = newPosition; }
 	void setOrientation(sf::Vector2f newOrientation) { m_orientation = newOrientation; }
 
+	void steerPlayer(sf::Vector2f);
+
+	void WrapAround(sf::Vector2f screenSize);
+
+	float Distance(sf::Vector2f t);
 	float Magnitude(sf::Vector2f v);
 	sf::Vector2f Normalise(sf::Vector2f v);
 
@@ -112,7 +119,6 @@ private:
 	void update(sf::Time t_deltaTime);
 	void render();
 	
-	void setupFontAndText();
 	void setupSprite();
 
 	sf::RenderWindow m_window; // main SFML window
@@ -121,6 +127,7 @@ private:
 	sf::Texture m_logoTexture; // texture used for sfml logo
 	sf::Sprite m_logoSprite; // sprite used for sfml logo
 	bool m_exitGame; // control exiting game
+	sf::Vector2f centrePoint;
 
 };
 

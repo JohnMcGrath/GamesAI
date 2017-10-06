@@ -3,7 +3,6 @@
 #include "Game.h"
 #include <iostream>
 #include "math.h"
-#include "Player.h"
 
 
 
@@ -11,7 +10,7 @@ Game::Game() :
 	m_window{ sf::VideoMode{ 800, 600, 32 }, "SFML Game" },
 	m_exitGame{false} //when true game will exit
 {
-	setupFontAndText(); // load font 
+	centrePoint = sf::Vector2f(m_window.getSize().x, m_window.getSize().y);
 	setupSprite(); // load texture
 }
 
@@ -29,10 +28,6 @@ void Game::run()
 
 	m_player->Initialise();
 	m_enemy->Initialise();
-
-	//Player tempPlayer;
-
-	//m_player = tempPlayer;
 
 	while (m_window.isOpen())
 	{
@@ -78,30 +73,8 @@ void Game::processEvents()
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
-	/*if (circ.getPosition().x > m_window.getSize().x)
-	{
-		circ.setPosition(sf::Vector2f(0 - circ.getGlobalBounds().width, circ.getPosition().y));
-	}
-
-	if (circ.getPosition().y > m_window.getSize().y)
-	{
-		circ.setPosition(sf::Vector2f(circ.getPosition().x, 0 - circ.getGlobalBounds().height));
-	}
-
-	int x2_x1 = (m_window.getSize().x / 2) - rect.getPosition().x;
-	int y2_y1 = (m_window.getSize().y / 2) - rect.getPosition().y;
-
-	int temp = sqrt((x2_x1*x2_x1) + (y2_y1*y2_y1));
-	std::cout << temp << std::endl;
-
-
-	if (sqrt((x2_x1*x2_x1) + (y2_y1*y2_y1))>600)
-	{
-		rectVelocity = -rectVelocity;
-	}*/
-	
-	m_player->Update();
-	m_enemy->Update(m_player->getPosition());
+	m_player->Update(centrePoint);
+	m_enemy->Update(m_player->getPosition(),centrePoint);
 
 	if (m_exitGame)
 	{
@@ -115,51 +88,23 @@ void Game::update(sf::Time t_deltaTime)
 void Game::render()
 {
 	m_window.clear(sf::Color::White);
-	m_window.draw(m_welcomeMessage);
 	m_window.draw(m_logoSprite);
 	m_window.draw(m_player->getSprite());
 	m_window.draw(m_enemy->getSprite());
 	m_window.display();
 }
 
-/// <summary>
-/// load the font and setup the text message for screen
-/// </summary>
-void Game::setupFontAndText()
-{
-	if (!m_ArialBlackfont.loadFromFile("ASSETS\\FONTS\\ariblk.ttf"))
-	{
-		std::cout << "problem loading arial black font" << std::endl;
-	}
-	m_welcomeMessage.setFont(m_ArialBlackfont);
-	m_welcomeMessage.setString("SFML Game");
-	m_welcomeMessage.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
-	m_welcomeMessage.setPosition(40.0f, 40.0f);
-	m_welcomeMessage.setCharacterSize(80);
-	m_welcomeMessage.setOutlineColor(sf::Color::Red);
-	m_welcomeMessage.setFillColor(sf::Color::Black);
-	m_welcomeMessage.setOutlineThickness(3.0f);
 
-}
 
 /// <summary>
 /// load the texture and setup the sprite for the logo
 /// </summary>
 void Game::setupSprite()
 {
-	if (!m_logoTexture.loadFromFile("ASSETS\\IMAGES\\SFML-LOGO.png"))
+	if (!m_logoTexture.loadFromFile("ASSETS\\IMAGES\\Background.png"))
 	{
 		// simple error message if previous call fails
 		std::cout << "problem loading logo" << std::endl;
 	}
 	m_logoSprite.setTexture(m_logoTexture);
-	m_logoSprite.setPosition(300.0f, 180.0f);
-
-/*	rect.setFillColor(sf::Color::Red);
-	rect.setSize(sf::Vector2f(50, 50));
-	rect.setPosition(30, 30);
-
-	circ.setFillColor(sf::Color::Blue);
-	circ.setRadius(25);
-	circ.setPosition(100, 30);*/
 }

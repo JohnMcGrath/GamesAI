@@ -3,30 +3,42 @@
 
 Player::Player() {}
 
+void Player::steerPlayer(sf::Vector2f t)
+{
+	m_velocity = (m_position + t) - m_position;
+	m_velocity = Normalise(m_velocity);
+	m_velocity * m_maxSpeed;
+}
+
 void Player::HandleInput(sf::Event event) {
 	if (sf::Event::KeyPressed == event.type) //user key press
 	{
 		if (sf::Keyboard::Up == event.key.code)
 		{
-			float temp = getVelocity().y - 1;
-			setVelocity(sf::Vector2f(getVelocity().x, temp));
+			steerPlayer(sf::Vector2f(0,-10));
 		}
 		if (sf::Keyboard::Down == event.key.code)
 		{
-			float temp = getVelocity().y + 1;
-			setVelocity(sf::Vector2f(getVelocity().x, temp));
+			steerPlayer(sf::Vector2f(0, 10));
 		}
 		if (sf::Keyboard::Left == event.key.code)
 		{
-			float temp = getVelocity().x - 1;
-			setVelocity(sf::Vector2f(temp,getVelocity().y));
+			steerPlayer(sf::Vector2f(-10, 0));
 		}
 		if (sf::Keyboard::Right == event.key.code)
 		{
-			float temp = getVelocity().x + 1;
-			setVelocity(sf::Vector2f(temp, getVelocity().y));
+			steerPlayer(sf::Vector2f(10, 0));
+		}
+		if (sf::Keyboard::Space == event.key.code)
+		{
+			m_velocity = sf::Vector2f(0,0);
 		}
 	}
+}
+
+float Player::Distance(sf::Vector2f t)
+{
+	return sqrt(((t.x - m_position.x)*(t.x - m_position.x)) + ((t.y - m_position.y)*(t.y - m_position.y)));
 }
 
 float Player::Magnitude(sf::Vector2f v)
@@ -60,11 +72,29 @@ void Player::Initialise() {
 	m_sprite.setPosition(sf::Vector2f(100, 100)); 
 }
 
-void Player::Update() {
-	std::cout << m_position.x << std::endl;
+void Player::WrapAround(sf::Vector2f screenSize) 
+{
+	if (m_position.x + m_sprite.getLocalBounds().width <= 0)
+	{
+		m_position.x = screenSize.x - 1;
+	}
+	if (m_position.x  > screenSize.x)
+	{
+		m_position.x = -1 - m_sprite.getLocalBounds().width;
+	}
+	if (m_position.y + m_sprite.getLocalBounds().height <= 0)
+	{
+		m_position.y = screenSize.y - 1;
+	}
+	if (m_position.y  > screenSize.y)
+	{
+		m_position.y = -1 - m_sprite.getLocalBounds().height;
+	}
+}
+
+void Player::Update(sf::Vector2f centrePoint) {
 	m_sprite.setPosition(m_position);
-
+	WrapAround(centrePoint);
 	m_velocity = Normalise(m_velocity);
-
 	setPosition(m_position + (sf::Vector2f(getVelocity().x*m_maxSpeed,getVelocity().y*m_maxSpeed)));
 }
