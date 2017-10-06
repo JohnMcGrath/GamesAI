@@ -6,11 +6,8 @@ Player::Player() {}
 void Player::HandleInput(sf::Event event) {
 	if (sf::Event::KeyPressed == event.type) //user key press
 	{
-		//SF Event in PhysObj.h may cause issues?
-		std::cout << "Player Handling Entered" << std::endl;
 		if (sf::Keyboard::Up == event.key.code)
 		{
-			std::cout << "Up Entered" << std::endl;
 			float temp = getVelocity().y - 1;
 			setVelocity(sf::Vector2f(getVelocity().x, temp));
 		}
@@ -32,6 +29,23 @@ void Player::HandleInput(sf::Event event) {
 	}
 }
 
+float Player::Magnitude(sf::Vector2f v)
+{
+	return sqrt((v.x*v.x) + (v.y*v.y));
+}
+
+sf::Vector2f Player::Normalise(sf::Vector2f v)
+{
+	float temp = Magnitude(v);
+	if (temp > 0)
+	{
+		return sf::Vector2f((v.x / temp), (v.y / temp));
+	}
+	else
+		return v;
+
+}
+
 void Player::Initialise() {
 	std::cout << "Player Initialise Entered" << std::endl;
 
@@ -42,13 +56,15 @@ void Player::Initialise() {
 	}
 
 	m_sprite.setTexture(m_texture);
-
+	m_sprite.setScale(sf::Vector2f(0.25, 0.25));
 	m_sprite.setPosition(sf::Vector2f(100, 100)); 
 }
 
 void Player::Update() {
-	std::cout << getPosition().x << std::endl;
-	m_sprite.setPosition(getPosition());
+	std::cout << m_position.x << std::endl;
+	m_sprite.setPosition(m_position);
 
-	setPosition(getPosition() + getVelocity());
+	m_velocity = Normalise(m_velocity);
+
+	setPosition(m_position + (sf::Vector2f(getVelocity().x*m_maxSpeed,getVelocity().y*m_maxSpeed)));
 }

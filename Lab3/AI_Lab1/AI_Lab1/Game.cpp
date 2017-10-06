@@ -28,6 +28,7 @@ void Game::run()
 	sf::Time timePerFrame = sf::seconds(1.f / 60.f); // 60 fps
 
 	m_player->Initialise();
+	m_enemy->Initialise();
 
 	//Player tempPlayer;
 
@@ -100,6 +101,7 @@ void Game::update(sf::Time t_deltaTime)
 	}*/
 	
 	m_player->Update();
+	m_enemy->Update();
 
 	if (m_exitGame)
 	{
@@ -116,7 +118,7 @@ void Game::render()
 	m_window.draw(m_welcomeMessage);
 	m_window.draw(m_logoSprite);
 	m_window.draw(m_player->getSprite());
-	//m_window.draw(rect);
+	m_window.draw(m_enemy->getSprite());
 	m_window.display();
 }
 
