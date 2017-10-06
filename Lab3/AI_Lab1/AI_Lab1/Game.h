@@ -17,13 +17,15 @@ public:
 
 
 
-	void HandleInput(sf::Vector2f t);
-	void Initialise();
-	void Update(sf::Vector2f t, sf::Vector2f screenSize);
+	void HandleInput(sf::Vector2f t, int typeOfMovement);
+	void Initialise(int color);
+	void Update(sf::Vector2f t, sf::Vector2f screenSize, int typeOfMovement);
+
 	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }
 	void setPosition(sf::Vector2f newPosition) { m_position = newPosition; }
-	void setOrientation(sf::Vector2f newOrientation) { m_orientation = newOrientation; }
+	void setOrientation(float newOrientation) { m_orientation = newOrientation; }
 
+	float orientate();
 	void WrapAround(sf::Vector2f screenSize);
 
 	float Magnitude(sf::Vector2f v);
@@ -32,7 +34,7 @@ public:
 
 	sf::Vector2f getVelocity() { return m_velocity; }
 	sf::Vector2f getPosition() { return m_position; }
-	sf::Vector2f getOrientation() { return m_orientation; }
+	float getOrientation() { return m_orientation; }
 
 	void setTexture(sf::Texture newTexture) { m_texture = newTexture; }
 	void setSprite(sf::Sprite newSprite) { m_sprite = newSprite; }
@@ -43,8 +45,7 @@ public:
 private:
 	sf::Vector2f m_velocity;
 	sf::Vector2f m_position = sf::Vector2f(500,500);
-	sf::Vector2f m_orientation;
-
+	float m_orientation;
 	float m_maxSpeed = 2.5f;
 
 	sf::Texture m_texture;
@@ -67,7 +68,7 @@ public:
 	void Update(sf::Vector2f centrePoint);
 	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }
 	void setPosition(sf::Vector2f newPosition) { m_position = newPosition; }
-	void setOrientation(sf::Vector2f newOrientation) { m_orientation = newOrientation; }
+	void setOrientation(float newOrientation) { m_orientation = newOrientation; }
 
 	void steerPlayer(sf::Vector2f);
 
@@ -77,9 +78,11 @@ public:
 	float Magnitude(sf::Vector2f v);
 	sf::Vector2f Normalise(sf::Vector2f v);
 
+	float orientate();
+
 	sf::Vector2f getVelocity() { return m_velocity; }
 	sf::Vector2f getPosition() { return m_position; }
-	sf::Vector2f getOrientation() { return m_orientation; }
+	float getOrientation() { return m_orientation; }
 
 	void setTexture(sf::Texture newTexture) { m_texture = newTexture; }
 	void setSprite(sf::Sprite newSprite) { m_sprite = newSprite; }
@@ -88,9 +91,11 @@ public:
 	sf::Sprite getSprite() { return m_sprite; }
 
 private:
+	sf::Vector2f tempVec;
 	sf::Vector2f m_velocity;
-	sf::Vector2f m_position;
-	sf::Vector2f m_orientation;
+	sf::Vector2f m_position = sf::Vector2f(300,300);
+	float m_orientation = 0;
+	float m_lastOrient = 0;
 
 	float m_maxSpeed = 2.5f;
 
@@ -104,7 +109,11 @@ class Game
 public:
 
 	Player * m_player = new Player;
-	Enemy * m_enemy = new Enemy;
+
+	Enemy * m_seekEnemy = new Enemy;
+	Enemy * m_arriveEnemy = new Enemy;
+	Enemy * m_wanderEnemy = new Enemy;
+	Enemy * m_otherWanderEnemy = new Enemy;
 
 	Game();
 	~Game();

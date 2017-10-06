@@ -10,24 +10,47 @@ void Player::steerPlayer(sf::Vector2f t)
 	m_velocity * m_maxSpeed;
 }
 
+float Player::orientate()
+{
+	std::cout << "Win";
+	float l = Magnitude(m_velocity);
+	if (l > 0)
+	{
+		std::cout << "Win";
+		return ((atan2(m_velocity.x, -m_velocity.y)) * 180 / 3.142);
+	}
+	else
+	{
+		std::cout << "Lose";
+		return m_orientation;
+	}
+}
+
 void Player::HandleInput(sf::Event event) {
 	if (sf::Event::KeyPressed == event.type) //user key press
 	{
 		if (sf::Keyboard::Up == event.key.code)
 		{
-			steerPlayer(sf::Vector2f(0,-10));
+			float x = sin(m_orientation * (180 / 3.142));
+			float y = -cos(m_orientation* (180 / 3.142));
+
+			steerPlayer(sf::Vector2f(x, y));
 		}
 		if (sf::Keyboard::Down == event.key.code)
 		{
-			steerPlayer(sf::Vector2f(0, 10));
+
+			float x = sin(m_orientation* (180 / 3.142));
+			float y = -cos(m_orientation* (180 / 3.142));
+
+			steerPlayer(sf::Vector2f(x,y));
 		}
 		if (sf::Keyboard::Left == event.key.code)
 		{
-			steerPlayer(sf::Vector2f(-10, 0));
+			m_orientation -= 10 / (180 / 3.142);
 		}
 		if (sf::Keyboard::Right == event.key.code)
 		{
-			steerPlayer(sf::Vector2f(10, 0));
+			m_orientation += 10 / (180 / 3.142);
 		}
 		if (sf::Keyboard::Space == event.key.code)
 		{
@@ -69,7 +92,7 @@ void Player::Initialise() {
 
 	m_sprite.setTexture(m_texture);
 	m_sprite.setScale(sf::Vector2f(0.25, 0.25));
-	m_sprite.setPosition(sf::Vector2f(100, 100)); 
+	m_sprite.setPosition(sf::Vector2f(300, 300)); 
 }
 
 void Player::WrapAround(sf::Vector2f screenSize) 
@@ -93,8 +116,12 @@ void Player::WrapAround(sf::Vector2f screenSize)
 }
 
 void Player::Update(sf::Vector2f centrePoint) {
+	//m_lastOrient = m_orientation - m_lastOrient;
+	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setPosition(m_position);
 	WrapAround(centrePoint);
+	m_sprite.rotate(m_orientation);
+
 	m_velocity = Normalise(m_velocity);
 	setPosition(m_position + (sf::Vector2f(getVelocity().x*m_maxSpeed,getVelocity().y*m_maxSpeed)));
 }
