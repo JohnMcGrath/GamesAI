@@ -101,7 +101,7 @@ void Game::update(sf::Time t_deltaTime)
 	}*/
 	
 	m_player->Update();
-	m_enemy->Update();
+	m_enemy->Update(m_player->getPosition());
 
 	if (m_exitGame)
 	{

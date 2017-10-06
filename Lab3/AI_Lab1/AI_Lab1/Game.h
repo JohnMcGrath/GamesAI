@@ -20,7 +20,7 @@ public:
 
 	void HandleInput(sf::Vector2f t);
 	void Initialise();
-	void Update();
+	void Update(sf::Vector2f t);
 	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }
 	void setPosition(sf::Vector2f newPosition) { m_position = newPosition; }
 	void setOrientation(sf::Vector2f newOrientation) { m_orientation = newOrientation; }
@@ -40,7 +40,7 @@ public:
 
 private:
 	sf::Vector2f m_velocity;
-	sf::Vector2f m_position;
+	sf::Vector2f m_position = sf::Vector2f(500,500);
 	sf::Vector2f m_orientation;
 
 	float m_maxSpeed = 2.5f;

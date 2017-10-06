@@ -4,7 +4,10 @@
 Enemy::Enemy() {}
 
 void Enemy::HandleInput(sf::Vector2f t) {
-
+	std::cout << "Enemy Handler Entered" << std::endl;
+	m_velocity = t - m_position;
+	m_velocity = Normalise(m_velocity);
+	m_velocity * m_maxSpeed;
 }
 
 float Enemy::Magnitude(sf::Vector2f v)
@@ -35,14 +38,14 @@ void Enemy::Initialise() {
 
 	m_sprite.setTexture(m_texture);
 	m_sprite.setScale(sf::Vector2f(0.25, 0.25));
-	m_sprite.setPosition(sf::Vector2f(400, 100));
 }
 
-void Enemy::Update() {
-	std::cout << m_position.x << std::endl;
+void Enemy::Update(sf::Vector2f t) {
+	std::cout << "Enemy Update Entered" << std::endl;
+	std::cout << m_position.x;
+	std::cout << ", ";
+	std::cout << m_position.y << std::endl;
 	m_sprite.setPosition(m_position);
-
-	m_velocity = Normalise(m_velocity);
-
-	setPosition(m_position + (sf::Vector2f(getVelocity().x*m_maxSpeed, getVelocity().y*m_maxSpeed)));
+	HandleInput(t);
+	m_position = m_position += m_velocity;
 }
