@@ -82,6 +82,7 @@ void Game::update(sf::Time t_deltaTime)
 	m_wanderEnemy->Update(m_player->getPosition(), centrePoint, 2);
 	m_otherWanderEnemy->Update(m_player->getPosition(), centrePoint, 3);
 	m_arriveEnemy->Update(m_player->getPosition(), centrePoint, 1);
+	temp->Update(m_player->getPosition(), m_player->getOrientation());
 
 	if (m_exitGame)
 	{
@@ -101,6 +102,7 @@ void Game::render()
 	m_window.draw(m_wanderEnemy->getSprite());
 	m_window.draw(m_otherWanderEnemy->getSprite());
 	m_window.draw(m_arriveEnemy->getSprite());
+	m_window.draw(temp->getSprite());
 	m_window.display();
 }
 

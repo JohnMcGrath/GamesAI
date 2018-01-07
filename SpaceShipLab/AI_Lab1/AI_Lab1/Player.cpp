@@ -39,8 +39,8 @@ void Player::HandleInput(sf::Event event) {
 		if (sf::Keyboard::Down == event.key.code)
 		{
 
-			float x = sin(m_orientation* (180 / 3.142));
-			float y = -cos(m_orientation* (180 / 3.142));
+			float x = sin(m_orientation);
+			float y = -cos(m_orientation);
 
 			steerPlayer(sf::Vector2f(x,y));
 		}

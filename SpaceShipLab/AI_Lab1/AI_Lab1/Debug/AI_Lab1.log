@@ -1,9 +1,2 @@
-﻿  Player.cpp
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(20): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(42): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(43): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(49): warning C4305: '-=': truncation from 'double' to 'float'
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(53): warning C4305: '+=': truncation from 'double' to 'float'
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(123): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.exe
+﻿  AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.exe
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.pdb (Partial PDB)
