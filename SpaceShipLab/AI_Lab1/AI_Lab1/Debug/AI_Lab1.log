@@ -1,2 +1,4 @@
-﻿  AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.exe
+﻿  Game.cpp
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(12): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.exe
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.pdb (Partial PDB)

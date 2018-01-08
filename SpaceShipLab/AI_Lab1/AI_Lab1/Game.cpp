@@ -1,4 +1,3 @@
-// author Peter Lowe
 
 #include "Game.h"
 #include <iostream>
@@ -27,10 +26,10 @@ void Game::run()
 	sf::Time timePerFrame = sf::seconds(1.f / 60.f); // 60 fps
 
 	m_player->Initialise();
-	m_seekEnemy->Initialise(0);
+	//m_seekEnemy->Initialise(0);
 	m_arriveEnemy->Initialise(1);
-	m_wanderEnemy->Initialise(2);
-	m_otherWanderEnemy->Initialise(3);
+///	m_wanderEnemy->Initialise(2);
+//	m_otherWanderEnemy->Initialise(3); */
 
 
 	while (m_window.isOpen())
@@ -78,9 +77,9 @@ void Game::processEvents()
 void Game::update(sf::Time t_deltaTime)
 {
 	m_player->Update(centrePoint);
-	m_seekEnemy->Update(m_player->getPosition(),centrePoint,0);
-	m_wanderEnemy->Update(m_player->getPosition(), centrePoint, 2);
-	m_otherWanderEnemy->Update(m_player->getPosition(), centrePoint, 3);
+	///*m_seekEnemy->Update(m_player->getPosition(),centrePoint,0);
+	//m_wanderEnemy->Update(m_player->getPosition(), centrePoint, 2);
+	//m_otherWanderEnemy->Update(m_player->getPosition(), centrePoint, 3);
 	m_arriveEnemy->Update(m_player->getPosition(), centrePoint, 1);
 	temp->Update(m_player->getPosition(), m_player->getOrientation());
 
@@ -98,11 +97,11 @@ void Game::render()
 	m_window.clear(sf::Color::White);
 	m_window.draw(m_logoSprite);
 	m_window.draw(m_player->getSprite());
-	m_window.draw(m_seekEnemy->getSprite());
-	m_window.draw(m_wanderEnemy->getSprite());
-	m_window.draw(m_otherWanderEnemy->getSprite());
+	/*m_window.draw(m_seekEnemy->getSprite());
+	//m_window.draw(m_wanderEnemy->getSprite());
+	//m_window.draw(m_otherWanderEnemy->getSprite());*/
 	m_window.draw(m_arriveEnemy->getSprite());
-	m_window.draw(temp->getSprite());
+	m_window.draw(temp->getSprite()); 
 	m_window.display();
 }
 

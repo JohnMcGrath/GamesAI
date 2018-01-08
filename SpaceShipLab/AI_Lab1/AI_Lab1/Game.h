@@ -2,12 +2,15 @@
 #ifndef GAME
 #define GAME
 
-#include <SFML/Graphics.hpp>
-#include "PhysicsObject.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Projectile.h"
 #include <iostream>
 
-
-class Enemy
+class Player;
+class Enemy;
+class Projectile;
+/*class Enemy
 {
 
 public:
@@ -47,9 +50,9 @@ private:
 
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
-};
+};*/
 
-
+/*
 class Player
 {
 public:
@@ -99,8 +102,8 @@ private:
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 };
-
-class Projectile
+*/
+/*class Projectile
 {
 public:
 	Projectile();
@@ -142,22 +145,24 @@ private:
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	bool isFlying = false;
-};
+};*/
 
 
 
 class Game
 {
 public:
+	Player * m_player = new Player();
 
-	Player * m_player = new Player;
+	Projectile * temp = new Projectile();
+//	Player * m_player = new Player;
 
-	Enemy * m_seekEnemy = new Enemy;
-	Enemy * m_arriveEnemy = new Enemy;
-	Enemy * m_wanderEnemy = new Enemy;
-	Enemy * m_otherWanderEnemy = new Enemy;
+	Enemy * m_arriveEnemy = new Enemy();
+	//Enemy * m_arriveEnemy = new Enemy();
+	//Enemy * m_wanderEnemy = new Enemy;
+//	Enemy * m_otherWanderEnemy = new Enemy;
 
-	Projectile * temp = new Projectile;
+	
 
 	Game();
 	~Game();
