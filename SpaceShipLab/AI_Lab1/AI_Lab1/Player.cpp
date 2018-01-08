@@ -116,7 +116,6 @@ void Player::WrapAround(sf::Vector2f screenSize)
 }
 
 void Player::Update(sf::Vector2f centrePoint) {
-	//m_lastOrient = m_orientation - m_lastOrient;
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setPosition(m_position);
 	WrapAround(centrePoint);
