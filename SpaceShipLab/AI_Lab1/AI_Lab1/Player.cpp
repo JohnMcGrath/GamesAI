@@ -29,14 +29,14 @@ float Player::orientate()
 void Player::HandleInput(sf::Event event) {
 	if (sf::Event::KeyPressed == event.type) //user key press
 	{
-		if (sf::Keyboard::Up == event.key.code)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
 			float x = sin(m_orientation);
 			float y = -cos(m_orientation);
 
 			steerPlayer(sf::Vector2f(x, y));
 		}
-		if (sf::Keyboard::Down == event.key.code)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
 
 			float x = sin(m_orientation);
@@ -44,15 +44,15 @@ void Player::HandleInput(sf::Event event) {
 
 			steerPlayer(sf::Vector2f(x,y));
 		}
-		if (sf::Keyboard::Left == event.key.code)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			m_orientation -= 4 / (180 / 3.142);
 		}
-		if (sf::Keyboard::Right == event.key.code)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			m_orientation += 4 / (180 / 3.142);
 		}
-		if (sf::Keyboard::Space == event.key.code)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			m_velocity = sf::Vector2f(0,0);
 		}

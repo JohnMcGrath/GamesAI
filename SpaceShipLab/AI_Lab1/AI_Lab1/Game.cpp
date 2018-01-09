@@ -27,7 +27,7 @@ void Game::run()
 
 	m_player->Initialise();
 	m_arriveEnemy->Initialise(1);
-
+	playerView.setSize(sf::Vector2f(VIEW_HEIGHT,VIEW_HEIGHT));
 
 	while (m_window.isOpen())
 	{
@@ -47,6 +47,12 @@ void Game::run()
 /// get key presses/ mouse moves etc. from OS
 /// and user :: Don't do game update here
 /// </summary>
+void Game::ResizeView(const sf::RenderWindow& window, sf::View view)
+{
+	float ratio = float(window.getSize().x) / float(window.getSize().y);
+	playerView.setSize(sf::Vector2f(VIEW_HEIGHT * ratio, VIEW_HEIGHT*ratio));
+}
+
 void Game::processEvents()
 {
 	sf::Event event;
@@ -64,6 +70,10 @@ void Game::processEvents()
 				m_exitGame = true;
 			}
 		}
+		if (sf::Event::Resized == event.type)
+		{
+			ResizeView(m_window, playerView);
+		}
 	}
 }
 
@@ -73,6 +83,7 @@ void Game::processEvents()
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
+	playerView.setCenter(m_player->getPosition());
 	m_player->Update(centrePoint);
 	m_arriveEnemy->Update(m_player->getPosition(), centrePoint, 1);
 	temp->Update(m_player->getPosition(), m_player->getOrientation());
@@ -89,6 +100,7 @@ void Game::update(sf::Time t_deltaTime)
 void Game::render()
 {
 	m_window.clear(sf::Color::White);
+	m_window.setView(playerView);
 	m_window.draw(m_logoSprite);
 	m_window.draw(m_player->getSprite());
 	m_window.draw(m_arriveEnemy->getSprite());
