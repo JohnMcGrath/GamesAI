@@ -1,12 +1,12 @@
 
 #include "Game.h"
 #include <iostream>
-#include "math.h"
+
 
 
 
 Game::Game() :
-	m_window{ sf::VideoMode{ 1600, 1000, 32 }, "SFML Game" },
+	m_window{ sf::VideoMode{ 1600, 1000, 32 }, "Space Game" },
 	m_exitGame{false} //when true game will exit
 {
 	centrePoint = sf::Vector2f(m_window.getSize().x, m_window.getSize().y);
@@ -28,6 +28,8 @@ void Game::run()
 	m_player->Initialise();
 	m_arriveEnemy->Initialise(1);
 	playerView.setSize(sf::Vector2f(VIEW_HEIGHT,VIEW_HEIGHT));
+
+	bullets.push_back(Bullet(b1));
 
 	while (m_window.isOpen())
 	{
@@ -70,6 +72,8 @@ void Game::processEvents()
 				m_exitGame = true;
 			}
 		}
+
+	
 		if (sf::Event::Resized == event.type)
 		{
 			ResizeView(m_window, playerView);
@@ -88,6 +92,29 @@ void Game::update(sf::Time t_deltaTime)
 	m_arriveEnemy->Update(m_player->getPosition(), centrePoint, 1);
 	temp->Update(m_player->getPosition(), m_player->getOrientation());
 
+
+	playerCentre = sf::Vector2f(m_player->getPosition());
+	mousePos = sf::Vector2f(sf::Mouse::getPosition(m_window));
+
+	aimDir = mousePos - playerCentre;
+	normalisedAimDir = m_player->Normalise(aimDir);
+
+//	std::cout << normalisedAimDir.x << " " << normalisedAimDir.y << " " << std::endl;
+	std::cout << sf::Mouse::getPosition().x << " " << sf::Mouse::getPosition().y << std::endl;
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		b1.m_shape.setPosition(m_player->getPosition());
+		b1.m_velocity = normalisedAimDir * b1.m_maxSpeed;
+
+		bullets.push_back(Bullet(b1));
+	}
+
+
+	for (size_t i = 0; i < bullets.size(); i++)
+	{
+		bullets[i].m_shape.move(bullets[i].m_velocity);
+	}
+
 	if (m_exitGame)
 	{
 		m_window.close();
@@ -100,11 +127,20 @@ void Game::update(sf::Time t_deltaTime)
 void Game::render()
 {
 	m_window.clear(sf::Color::White);
-	m_window.setView(playerView);
+
+
+	//m_window.setView(playerView);
 	m_window.draw(m_logoSprite);
 	m_window.draw(m_player->getSprite());
 	m_window.draw(m_arriveEnemy->getSprite());
 	m_window.draw(temp->getSprite()); 
+
+	for (size_t i = 0; i < bullets.size(); i++)
+	{
+		m_window.draw(bullets[i].m_shape);
+	}
+
+
 	m_window.display();
 }
 
@@ -121,4 +157,5 @@ void Game::setupSprite()
 		std::cout << "problem loading logo" << std::endl;
 	}
 	m_logoSprite.setTexture(m_logoTexture);
+	m_logoTexture.setRepeated(true);
 }

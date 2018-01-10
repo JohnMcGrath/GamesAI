@@ -2,14 +2,18 @@
 #ifndef GAME
 #define GAME
 
+#include "Bullet.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Projectile.h"
+#include "math.h"
+#include <vector>
 #include <iostream>
 
 class Player;
 class Enemy;
 class Projectile;
+class Bullet;
 
 static const float VIEW_HEIGHT = 1080.0f;
 
@@ -21,6 +25,10 @@ public:
 	Projectile * temp = new Projectile();
 
 	Enemy * m_arriveEnemy = new Enemy();
+
+	Bullet  b1;
+	std::vector<Bullet> bullets;
+	
 
 	Game();
 	~Game();
@@ -45,6 +53,11 @@ private:
 	sf::Sprite m_logoSprite; // sprite used for sfml logo
 	bool m_exitGame; // control exiting game
 	sf::Vector2f centrePoint;
+
+	sf::Vector2f playerCentre;
+	sf::Vector2f mousePos;
+	sf::Vector2f aimDir;
+	sf::Vector2f normalisedAimDir;
 };
 
 #endif // !GAME
