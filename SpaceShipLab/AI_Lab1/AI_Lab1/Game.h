@@ -9,6 +9,7 @@
 #include "math.h"
 #include <vector>
 #include <iostream>
+#include <cstdlib>
 
 class Player;
 class Enemy;
@@ -25,6 +26,7 @@ public:
 	Projectile * temp = new Projectile();
 
 	Enemy * m_arriveEnemy = new Enemy();
+	std::vector<Enemy*> enemies;
 
 	Bullet  b1;
 	std::vector<Bullet> bullets;
@@ -58,6 +60,8 @@ private:
 	sf::Vector2f mousePos;
 	sf::Vector2f aimDir;
 	sf::Vector2f normalisedAimDir;
+
+	int spawnCounter = 20;
 };
 
 #endif // !GAME

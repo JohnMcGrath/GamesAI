@@ -24,12 +24,12 @@ void Game::run()
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	sf::Time timePerFrame = sf::seconds(1.f / 60.f); // 60 fps
+	srand(time(NULL));
 
 	m_player->Initialise();
 	m_arriveEnemy->Initialise(1);
 	playerView.setSize(sf::Vector2f(VIEW_HEIGHT,VIEW_HEIGHT));
-
-	bullets.push_back(Bullet(b1));
+	enemies.push_back(m_arriveEnemy);
 
 	while (m_window.isOpen())
 	{
@@ -89,10 +89,16 @@ void Game::update(sf::Time t_deltaTime)
 {
 	playerView.setCenter(m_player->getPosition());
 	m_player->Update(centrePoint);
-	m_arriveEnemy->Update(m_player->getPosition(), centrePoint, 1);
+
+	for (size_t i = 0; i < enemies.size(); i++)
+	{
+		enemies[i]->Update(m_player->getPosition(), centrePoint, 1);
+	}
+
+//	m_arriveEnemy->Update(m_player->getPosition(), centrePoint, 1);
 	temp->Update(m_player->getPosition(), m_player->getOrientation());
 
-
+	//Bullets
 	playerCentre = sf::Vector2f(m_player->getPosition());
 	mousePos = sf::Vector2f(sf::Mouse::getPosition(m_window));
 
@@ -113,6 +119,24 @@ void Game::update(sf::Time t_deltaTime)
 	for (size_t i = 0; i < bullets.size(); i++)
 	{
 		bullets[i].m_shape.move(bullets[i].m_velocity);
+
+		if (bullets[i].m_shape.getPosition().x < 0 || bullets[i].m_shape.getPosition().x > m_window.getSize().x ||
+			bullets[i].m_shape.getPosition().y < 0 || bullets[i].m_shape.getPosition().y > m_window.getSize().y)
+		{
+			bullets.erase(bullets.begin() + i);
+		}
+	}
+
+	//Enemies
+	if (spawnCounter < 20)
+	{
+		spawnCounter++;
+	}
+	if (spawnCounter >= 20)
+	{
+		m_arriveEnemy->setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
+		enemies.push_back(m_arriveEnemy);
+		spawnCounter = 0;
 	}
 
 	if (m_exitGame)
@@ -131,15 +155,21 @@ void Game::render()
 
 	//m_window.setView(playerView);
 	m_window.draw(m_logoSprite);
-	m_window.draw(m_player->getSprite());
-	m_window.draw(m_arriveEnemy->getSprite());
+	
+	//m_window.draw(m_arriveEnemy->getSprite());
 	m_window.draw(temp->getSprite()); 
+
+	for (size_t i = 0; i < enemies.size(); i++)
+	{
+		m_window.draw(enemies[i]->getSprite());
+	}
 
 	for (size_t i = 0; i < bullets.size(); i++)
 	{
 		m_window.draw(bullets[i].m_shape);
 	}
 
+	m_window.draw(m_player->getSprite());
 
 	m_window.display();
 }
