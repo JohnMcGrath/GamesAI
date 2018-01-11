@@ -63,6 +63,7 @@ private:
 	sf::Vector2f normalisedAimDir;
 
 	int spawnCounter = 20;
+	int bulletCounter = 10;
 };
 
 #endif // !GAME

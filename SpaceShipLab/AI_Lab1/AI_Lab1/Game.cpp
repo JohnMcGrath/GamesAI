@@ -115,12 +115,21 @@ void Game::update(sf::Time t_deltaTime)
 
 
 	//Bullets
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && bullets.size() < 30)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		b1.m_shape.setPosition(m_player->getPosition());
-		b1.m_velocity = normalisedAimDir * b1.m_maxSpeed;
+		if (bulletCounter < 10)
+		{
+			bulletCounter++;
+		}
+		else
+		{
+			bulletCounter = 0;
+			b1.m_shape.setPosition(m_player->getPosition());
+			b1.m_velocity = normalisedAimDir * b1.m_maxSpeed;
 
-		bullets.push_back(Bullet(b1));
+			bullets.push_back(Bullet(b1));
+		}
+		
 	}
 
 	playerCentre = sf::Vector2f(m_player->getPosition());
@@ -134,9 +143,9 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		bullets[i].m_shape.move(bullets[i].m_velocity);
 
-		if (bullets[i].m_shape.getPosition().x < 0 || bullets[i].m_shape.getPosition().x > m_window.getSize().x ||
-			bullets[i].m_shape.getPosition().y < 0 || bullets[i].m_shape.getPosition().y > m_window.getSize().y)
+		if (m_player->Magnitude(bullets[i].m_shape.getPosition() - m_player->getPosition()) > 2000)
 		{
+			std::cout << "Bullet Removed" << std::endl;
 			bullets.erase(bullets.begin() + i);
 			break;
 		}
