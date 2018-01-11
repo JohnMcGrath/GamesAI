@@ -87,27 +87,33 @@ void Game::processEvents()
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
+	//Player
 	playerView.setCenter(m_player->getPosition());
 	m_player->Update(centrePoint);
 
-	for (size_t i = 0; i < enemies.size(); i++)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		enemies[i]->Update(m_player->getPosition(), centrePoint, 1);
+		float x = sin(m_player->getOrientation());
+		float y = -cos(m_player->getOrientation());
+
+		m_player->steerPlayer(sf::Vector2f(x, y));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		m_player->setVelocity(sf::Vector2f(0, 0));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		m_player->setOrientation(m_player->getOrientation() - (4 / (180 / 3.142))); //m_orientation -= 4 / (180 / 3.142);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		m_player->setOrientation(m_player->getOrientation() + (4 / (180 / 3.142)));
 	}
 
-//	m_arriveEnemy->Update(m_player->getPosition(), centrePoint, 1);
-	temp->Update(m_player->getPosition(), m_player->getOrientation());
 
 	//Bullets
-	playerCentre = sf::Vector2f(m_player->getPosition());
-	//mousePos = sf::Vector2f(sf::Mouse::getPosition(m_window));
-
-	mousePos = sf::Vector2f(10 * sin(m_player->getOrientation()) + m_player->getPosition().x, 10 * -cos(m_player->getOrientation()) + m_player->getPosition().y);
-
-	aimDir = mousePos - playerCentre;
-	normalisedAimDir = m_player->Normalise(aimDir);
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		b1.m_shape.setPosition(m_player->getPosition());
 		b1.m_velocity = normalisedAimDir * b1.m_maxSpeed;
@@ -115,6 +121,12 @@ void Game::update(sf::Time t_deltaTime)
 		bullets.push_back(Bullet(b1));
 	}
 
+	playerCentre = sf::Vector2f(m_player->getPosition());
+
+	mousePos = sf::Vector2f(10 * sin(m_player->getOrientation()) + m_player->getPosition().x, 10 * -cos(m_player->getOrientation()) + m_player->getPosition().y);
+
+	aimDir = mousePos - playerCentre;
+	normalisedAimDir = m_player->Normalise(aimDir);
 
 	for (size_t i = 0; i < bullets.size(); i++)
 	{
@@ -128,6 +140,11 @@ void Game::update(sf::Time t_deltaTime)
 	}
 
 	//Enemies
+	for (size_t i = 0; i < enemies.size(); i++)
+	{
+		enemies[i]->Update(m_player->getPosition(), centrePoint, 1);
+	}
+
 	if (spawnCounter < 20)
 	{
 		spawnCounter++;
@@ -150,14 +167,11 @@ void Game::update(sf::Time t_deltaTime)
 /// </summary>
 void Game::render()
 {
-	m_window.clear(sf::Color::White);
+	m_window.clear(sf::Color::Black);
 
 
 	m_window.setView(playerView);
 	m_window.draw(m_logoSprite);
-	
-	//m_window.draw(m_arriveEnemy->getSprite());
-	m_window.draw(temp->getSprite()); 
 
 	for (size_t i = 0; i < enemies.size(); i++)
 	{
