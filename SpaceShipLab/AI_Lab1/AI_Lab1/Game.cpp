@@ -100,13 +100,13 @@ void Game::update(sf::Time t_deltaTime)
 
 	//Bullets
 	playerCentre = sf::Vector2f(m_player->getPosition());
-	mousePos = sf::Vector2f(sf::Mouse::getPosition(m_window));
+	//mousePos = sf::Vector2f(sf::Mouse::getPosition(m_window));
+
+	mousePos = sf::Vector2f(10 * sin(m_player->getOrientation()) + m_player->getPosition().x, 10 * -cos(m_player->getOrientation()) + m_player->getPosition().y);
 
 	aimDir = mousePos - playerCentre;
 	normalisedAimDir = m_player->Normalise(aimDir);
 
-//	std::cout << normalisedAimDir.x << " " << normalisedAimDir.y << " " << std::endl;
-	std::cout << sf::Mouse::getPosition().x << " " << sf::Mouse::getPosition().y << std::endl;
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		b1.m_shape.setPosition(m_player->getPosition());
@@ -153,7 +153,7 @@ void Game::render()
 	m_window.clear(sf::Color::White);
 
 
-	//m_window.setView(playerView);
+	m_window.setView(playerView);
 	m_window.draw(m_logoSprite);
 	
 	//m_window.draw(m_arriveEnemy->getSprite());
