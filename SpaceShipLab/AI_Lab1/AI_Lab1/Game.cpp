@@ -62,7 +62,6 @@ void Game::processEvents()
 	sf::Event event;
 	while (m_window.pollEvent(event))
 	{
-		m_player->HandleInput(event);
 		if ( sf::Event::Closed == event.type) // window message
 		{
 			m_window.close();
@@ -89,29 +88,11 @@ void Game::processEvents()
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
-	//Player
-	playerView.setCenter(m_player->getPosition());
+	//View
 	m_player->Update(centrePoint);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	{
-		float x = sin(m_player->getOrientation());
-		float y = -cos(m_player->getOrientation());
-
-		m_player->steerPlayer(sf::Vector2f(x, y));
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-		m_player->setVelocity(sf::Vector2f(0, 0));
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		m_player->setOrientation(m_player->getOrientation() - (4 / (180 / 3.142))); //m_orientation -= 4 / (180 / 3.142);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		m_player->setOrientation(m_player->getOrientation() + (4 / (180 / 3.142)));
-	}
+	//Player
+	playerView.setCenter(m_player->getPosition());
 
 
 	//Bullets

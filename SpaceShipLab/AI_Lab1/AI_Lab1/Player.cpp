@@ -26,9 +26,27 @@ float Player::orientate()
 	}
 }
 
-void Player::HandleInput(sf::Event event)
+void Player::HandleInput()
 {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		float x = sin(getOrientation());
+		float y = -cos(getOrientation());
 
+		steerPlayer(sf::Vector2f(x, y));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		setVelocity(sf::Vector2f(0, 0));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		setOrientation(getOrientation() - (4 / (180 / 3.142))); //m_orientation -= 4 / (180 / 3.142);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		setOrientation(getOrientation() + (4 / (180 / 3.142)));
+	}
 }
 
 float Player::Distance(sf::Vector2f t)
@@ -91,7 +109,7 @@ void Player::Update(sf::Vector2f centrePoint) {
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setPosition(m_position);
 	m_sprite.setRotation(m_orientation * (180 / 3.14));
-
+	HandleInput();
 	m_velocity = Normalise(m_velocity);
 	setPosition(m_position + (sf::Vector2f(getVelocity().x*m_maxSpeed,getVelocity().y*m_maxSpeed)));
 }

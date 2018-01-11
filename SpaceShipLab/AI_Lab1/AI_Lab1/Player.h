@@ -8,7 +8,7 @@ public:
 	Player();
 	~Player();
 
-	void HandleInput(sf::Event);
+	void HandleInput();
 	void Initialise();
 	void Update(sf::Vector2f centrePoint);
 	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }
