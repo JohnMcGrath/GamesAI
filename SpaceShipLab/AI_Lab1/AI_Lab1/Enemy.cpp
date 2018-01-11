@@ -131,7 +131,7 @@ void Enemy::Initialise(int color) {
 
 void Enemy::Update(sf::Vector2f t, sf::Vector2f screenSize, int typeOfMovement) {
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
-	WrapAround(screenSize);
+	//WrapAround(screenSize);
 	m_sprite.setPosition(m_position);
 	m_orientation = orientate();
 	m_sprite.setRotation(m_orientation);

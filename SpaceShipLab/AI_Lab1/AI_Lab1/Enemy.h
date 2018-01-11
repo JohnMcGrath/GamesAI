@@ -6,7 +6,6 @@ class Enemy
 {
 public:
 	Enemy();
-	~Enemy();
 
 	void HandleInput(sf::Vector2f t, int typeOfMovement);
 	void Initialise(int color);

@@ -23,10 +23,11 @@ class Game
 public:
 	Player * m_player = new Player();
 
-	Projectile * temp = new Projectile();
+	//Enemy * m_arriveEnemy = new Enemy();
+	//std::vector<Enemy*> enemies;
 
-	Enemy * m_arriveEnemy = new Enemy();
-	std::vector<Enemy*> enemies;
+	Enemy e1;
+	std::vector<Enemy> enemies;
 
 	Bullet  b1;
 	std::vector<Bullet> bullets;

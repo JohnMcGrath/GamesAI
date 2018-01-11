@@ -27,9 +27,11 @@ void Game::run()
 	srand(time(NULL));
 
 	m_player->Initialise();
-	m_arriveEnemy->Initialise(1);
+	
 	playerView.setSize(sf::Vector2f(VIEW_HEIGHT,VIEW_HEIGHT));
-	enemies.push_back(m_arriveEnemy);
+
+	//Initialise the type of enemie that follows the player
+	e1.Initialise(1);
 
 	while (m_window.isOpen())
 	{
@@ -142,7 +144,7 @@ void Game::update(sf::Time t_deltaTime)
 	//Enemies
 	for (size_t i = 0; i < enemies.size(); i++)
 	{
-		enemies[i]->Update(m_player->getPosition(), centrePoint, 1);
+		enemies[i].Update(m_player->getPosition(), centrePoint, 1);
 	}
 
 	if (spawnCounter < 20)
@@ -151,11 +153,11 @@ void Game::update(sf::Time t_deltaTime)
 	}
 	if (spawnCounter >= 20)
 	{
-		m_arriveEnemy->setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
-		enemies.push_back(m_arriveEnemy);
+		e1.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
+		enemies.push_back(e1);
 		spawnCounter = 0;
 	}
-
+	
 	if (m_exitGame)
 	{
 		m_window.close();
@@ -175,9 +177,10 @@ void Game::render()
 
 	for (size_t i = 0; i < enemies.size(); i++)
 	{
-		m_window.draw(enemies[i]->getSprite());
+		m_window.draw(enemies[i].getSprite());
 	}
 
+	
 	for (size_t i = 0; i < bullets.size(); i++)
 	{
 		m_window.draw(bullets[i].m_shape);
