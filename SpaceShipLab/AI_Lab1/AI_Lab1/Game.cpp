@@ -190,6 +190,21 @@ void Game::update(sf::Time t_deltaTime)
 	for (size_t j = 0; j < workersEns.size(); j++)
 	{
 		workersEns[j].Update(m_player->getPosition(), centrePoint, 2);
+
+		sf::FloatRect workerBound = workersEns[j].getSprite().getGlobalBounds();
+		sf::RectangleShape workerBoundShape;
+		workerBoundShape.setSize(sf::Vector2f(workerBound.width, workerBound.height));
+		workerBoundShape.setPosition(sf::Vector2f(workerBound.left, workerBound.top));
+
+		sf::FloatRect playerBound = m_player->getSprite().getGlobalBounds();
+		sf::RectangleShape playerBoundShap;
+		playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
+		playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
+
+		if (workerBoundShape.getGlobalBounds().intersects(playerBoundShap.getGlobalBounds()))
+		{
+			workersEns.erase(workersEns.begin() + j);
+		}
 	}
 	
 	if (m_exitGame)
@@ -241,6 +256,7 @@ void Game::setupSprite()
 		// simple error message if previous call fails
 		std::cout << "problem loading logo" << std::endl;
 	}
+	m_logoSprite.setScale(sf::Vector2f(3.5, 3.5));
 	m_logoSprite.setTexture(m_logoTexture);
 	m_logoTexture.setRepeated(true);
 }

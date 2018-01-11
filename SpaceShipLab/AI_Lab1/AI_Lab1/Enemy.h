@@ -44,4 +44,7 @@ private:
 	int timer = 40;
 	sf::Vector2f newTravelPoint;
 	float randAngle;
+
+	sf::FloatRect workerCol;
+	sf::RectangleShape workerColBox;
 };

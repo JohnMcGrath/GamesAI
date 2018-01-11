@@ -16,7 +16,6 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 		float timeToTarget = 0.5f;
 		m_velocity = t - m_position;
 
-
 		m_velocity *= timeToTarget;
 		float l = Magnitude(m_velocity);
 		if (l > m_maxSpeed) {
@@ -32,11 +31,10 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 		sf::Vector2f travelPoint = Normalise(m_velocity) * dist;
 		travelPoint += m_position;
 
-		if (timer >= 10)
+		if (timer >= 50)
 		{
-			std::cout << "Ship Chnage" << std::endl;
 			timer = 0;
-			randAngle = (rand() % 75 + 15) * (3.142 / 180);
+			randAngle = (rand() % 75 + 15);
 		}
 		
 		else
