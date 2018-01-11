@@ -73,6 +73,7 @@ float Enemy::orientate()
 
 void Enemy::WrapAround(sf::Vector2f screenSize)
 {
+	/*
 	if (m_position.x + m_sprite.getLocalBounds().width <= 0)
 	{
 		m_position.x = screenSize.x - 1;
@@ -89,6 +90,7 @@ void Enemy::WrapAround(sf::Vector2f screenSize)
 	{
 		m_position.y = -1 - m_sprite.getLocalBounds().height;
 	}
+	*/
 }
 
 float Enemy::Distance(sf::Vector2f t)
@@ -126,7 +128,7 @@ void Enemy::Initialise(int color) {
 
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setTexture(m_texture);
-	m_sprite.setScale(sf::Vector2f(0.25, 0.25));
+	m_sprite.setScale(sf::Vector2f(0.2, 0.2));
 }
 
 void Enemy::Update(sf::Vector2f t, sf::Vector2f screenSize, int typeOfMovement) {

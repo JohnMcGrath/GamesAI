@@ -115,7 +115,7 @@ void Game::update(sf::Time t_deltaTime)
 
 
 	//Bullets
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && bullets.size() < 30)
 	{
 		b1.m_shape.setPosition(m_player->getPosition());
 		b1.m_velocity = normalisedAimDir * b1.m_maxSpeed;
@@ -138,26 +138,53 @@ void Game::update(sf::Time t_deltaTime)
 			bullets[i].m_shape.getPosition().y < 0 || bullets[i].m_shape.getPosition().y > m_window.getSize().y)
 		{
 			bullets.erase(bullets.begin() + i);
+			break;
+		}
+
+		else
+		{
+			for (size_t k = 0; k < enemies.size(); k++)
+			{
+				sf::FloatRect bulletBound = bullets[i].m_shape.getGlobalBounds();
+				sf::RectangleShape bulletBoundShape;
+				bulletBoundShape.setSize(sf::Vector2f(bulletBound.width, bulletBound.height));
+				bulletBoundShape.setPosition(sf::Vector2f(bulletBound.left, bulletBound.top));
+
+				sf::FloatRect enemyBound = enemies[k].getSprite().getGlobalBounds();
+				sf::RectangleShape enemyBoundShap;
+				enemyBoundShap.setSize(sf::Vector2f(enemyBound.width, enemyBound.height));
+				enemyBoundShap.setPosition(sf::Vector2f(enemyBound.left, enemyBound.top));
+
+				if (bulletBoundShape.getGlobalBounds().intersects(enemyBoundShap.getGlobalBounds()))
+				{
+					bullets.erase(bullets.begin() + i);
+					enemies.erase(enemies.begin() + k);
+					break;
+				}
+			}
 		}
 	}
 
 	//Enemies
+
+
+	if (spawnCounter < 40)
+	{
+		spawnCounter++;
+	}
+	if (spawnCounter >= 40 & enemies.size() < 5)
+	{
+		spawnCounter = 0;
+		e1.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
+		enemies.push_back(e1);
+		std::cout << "Enemy Vector: " << enemies.size() << std::endl;
+	}
+	
 	for (size_t i = 0; i < enemies.size(); i++)
 	{
 		enemies[i].Update(m_player->getPosition(), centrePoint, 1);
 	}
 
-	if (spawnCounter < 20)
-	{
-		spawnCounter++;
-	}
-	if (spawnCounter >= 20)
-	{
-		e1.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
-		enemies.push_back(e1);
-		spawnCounter = 0;
-	}
-	
 	if (m_exitGame)
 	{
 		m_window.close();
