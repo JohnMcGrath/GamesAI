@@ -58,7 +58,7 @@ private:
 	sf::Vector2f centrePoint;
 
 	sf::Vector2f playerCentre;
-	sf::Vector2f mousePos;
+	sf::Vector2f cursorPos;
 	sf::Vector2f aimDir;
 	sf::Vector2f normalisedAimDir;
 

@@ -114,10 +114,8 @@ void Game::update(sf::Time t_deltaTime)
 	}
 
 	playerCentre = sf::Vector2f(m_player->getPosition());
-
-	mousePos = sf::Vector2f(10 * sin(m_player->getOrientation()) + m_player->getPosition().x, 10 * -cos(m_player->getOrientation()) + m_player->getPosition().y);
-
-	aimDir = mousePos - playerCentre;
+	cursorPos = sf::Vector2f(10 * sin(m_player->getOrientation()) + m_player->getPosition().x, 10 * -cos(m_player->getOrientation()) + m_player->getPosition().y);
+	aimDir = cursorPos - playerCentre;
 	normalisedAimDir = m_player->Normalise(aimDir);
 
 	for (size_t i = 0; i < bullets.size(); i++)
@@ -156,8 +154,6 @@ void Game::update(sf::Time t_deltaTime)
 	}
 
 	//Enemies
-
-
 	if (spawnCounter < 40)
 	{
 		spawnCounter++;

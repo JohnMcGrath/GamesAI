@@ -6,7 +6,6 @@ class Player
 {
 public:
 	Player();
-	~Player();
 
 	void HandleInput();
 	void Initialise();
