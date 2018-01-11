@@ -85,20 +85,64 @@ void Game::processEvents()
 	}
 }
 
-/// <summary>
-/// Update the game world
-/// </summary>
-/// <param name="t_deltaTime">time interval per frame</param>
-void Game::update(sf::Time t_deltaTime)
+void Game::PlayerHandler()
 {
-	//View
-	m_player->Update(centrePoint);
 
-	//Player
-	playerView.setCenter(m_player->getPosition());
+}
+void Game::EnemyHandler()
+{
+	if (spawnCounter < 40)
+	{
+		spawnCounter++;
+	}
+	if (spawnCounter >= 40 & enemies.size() < 5)
+	{
+		spawnCounter = 0;
+		e1.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
+		enemies.push_back(e1);
+	}
 
+	for (size_t i = 0; i < enemies.size(); i++)
+	{
+		enemies[i].Update(m_player->getPosition(), centrePoint, 1);
+	}
+}
+void Game::WorkerHandler()
+{
+	if (workerCounter < 40)
+	{
+		workerCounter++;
+	}
+	if (workerCounter >= 40 & workersEns.size() < 15)
+	{
+		std::cout << "Worker Spawned" << std::endl;
+		workerCounter = 0;
+		e2.setPosition(sf::Vector2f((rand() % -100 + 100) + m_player->getPosition().x, (rand() % -100 + 100) + m_player->getPosition().y));
+		workersEns.push_back(e2);
+	}
 
-	//Bullets
+	for (size_t j = 0; j < workersEns.size(); j++)
+	{
+		workersEns[j].Update(m_player->getPosition(), centrePoint, 2);
+
+		workerBound = workersEns[j].getSprite().getGlobalBounds();
+		workerBoundShape.setSize(sf::Vector2f(workerBound.width, workerBound.height));
+		workerBoundShape.setPosition(sf::Vector2f(workerBound.left, workerBound.top));
+
+		playerBound = m_player->getSprite().getGlobalBounds();
+		playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
+		playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
+
+		if (workerBoundShape.getGlobalBounds().intersects(playerBoundShap.getGlobalBounds()))
+		{
+			workersEns.erase(workersEns.begin() + j);
+			break;
+		}
+	}
+}
+
+void Game::BulletHandler()
+{
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		if (bulletCounter < 10)
@@ -113,7 +157,7 @@ void Game::update(sf::Time t_deltaTime)
 
 			bullets.push_back(Bullet(b1));
 		}
-		
+
 	}
 
 	playerCentre = sf::Vector2f(m_player->getPosition());
@@ -136,13 +180,11 @@ void Game::update(sf::Time t_deltaTime)
 		{
 			for (size_t k = 0; k < enemies.size(); k++)
 			{
-				sf::FloatRect bulletBound = bullets[i].m_shape.getGlobalBounds();
-				sf::RectangleShape bulletBoundShape;
+				bulletBound = bullets[i].m_shape.getGlobalBounds();
 				bulletBoundShape.setSize(sf::Vector2f(bulletBound.width, bulletBound.height));
 				bulletBoundShape.setPosition(sf::Vector2f(bulletBound.left, bulletBound.top));
 
-				sf::FloatRect enemyBound = enemies[k].getSprite().getGlobalBounds();
-				sf::RectangleShape enemyBoundShap;
+				enemyBound = enemies[k].getSprite().getGlobalBounds();
 				enemyBoundShap.setSize(sf::Vector2f(enemyBound.width, enemyBound.height));
 				enemyBoundShap.setPosition(sf::Vector2f(enemyBound.left, enemyBound.top));
 
@@ -155,57 +197,23 @@ void Game::update(sf::Time t_deltaTime)
 			}
 		}
 	}
+}
 
-	//Enemies
-	if (spawnCounter < 40)
-	{
-		spawnCounter++;
-	}
-	if (spawnCounter >= 40 & enemies.size() < 5)
-	{
-		spawnCounter = 0;
-		e1.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
-		enemies.push_back(e1);
-		std::cout << "Enemy Vector: " << enemies.size() << std::endl;
-	}
-	
-	for (size_t i = 0; i < enemies.size(); i++)
-	{
-		enemies[i].Update(m_player->getPosition(), centrePoint, 1);
-	}
+/// <summary>
+/// Update the game world
+/// </summary>
+/// <param name="t_deltaTime">time interval per frame</param>
+void Game::update(sf::Time t_deltaTime)
+{
+	//View
+	m_player->Update(centrePoint);
 
-	//Workers
-	if (workerCounter < 40)
-	{
-		workerCounter++;
-	}
-	if (workerCounter >= 40 & workersEns.size() < 15)
-	{
-		std::cout << "Worker Spawned" << std::endl;
-		workerCounter = 0;
-		e2.setPosition(sf::Vector2f((rand() % -100 + 100) + m_player->getPosition().x, (rand() % -100 + 100) + m_player->getPosition().y));
-		workersEns.push_back(e2);
-	}
+	//Player
+	playerView.setCenter(m_player->getPosition());
 
-	for (size_t j = 0; j < workersEns.size(); j++)
-	{
-		workersEns[j].Update(m_player->getPosition(), centrePoint, 2);
-
-		sf::FloatRect workerBound = workersEns[j].getSprite().getGlobalBounds();
-		sf::RectangleShape workerBoundShape;
-		workerBoundShape.setSize(sf::Vector2f(workerBound.width, workerBound.height));
-		workerBoundShape.setPosition(sf::Vector2f(workerBound.left, workerBound.top));
-
-		sf::FloatRect playerBound = m_player->getSprite().getGlobalBounds();
-		sf::RectangleShape playerBoundShap;
-		playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
-		playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
-
-		if (workerBoundShape.getGlobalBounds().intersects(playerBoundShap.getGlobalBounds()))
-		{
-			workersEns.erase(workersEns.begin() + j);
-		}
-	}
+	BulletHandler();
+	EnemyHandler();
+	WorkerHandler();
 	
 	if (m_exitGame)
 	{

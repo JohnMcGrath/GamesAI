@@ -1,22 +1,8 @@
 ﻿  Game.cpp
 c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(12): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(27): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(164): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(167): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(182): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-  Enemy.cpp
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(37): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(58): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(73): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(134): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(135): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(137): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(147): warning C4305: 'argument': truncation from 'double' to 'float'
-  Generating Code...
-  Compiling...
-  main.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  Player.cpp
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(98): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(101): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(116): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.exe
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.pdb (Partial PDB)

@@ -54,6 +54,10 @@ private:
 	void render();
 	void ResizeView(const sf::RenderWindow& window, sf::View view);
 	void setupSprite();
+	void EnemyHandler();
+	void PlayerHandler();
+	void WorkerHandler();
+	void BulletHandler();
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::View playerView;
@@ -72,6 +76,15 @@ private:
 	int spawnCounter = 20;
 	int workerCounter = 20;
 	int bulletCounter = 10;
+
+	sf::FloatRect bulletBound;
+	sf::RectangleShape bulletBoundShape;
+	sf::FloatRect enemyBound;
+	sf::RectangleShape enemyBoundShap;
+	sf::FloatRect workerBound;
+	sf::RectangleShape workerBoundShape;
+	sf::FloatRect playerBound;
+	sf::RectangleShape playerBoundShap;
 };
 
 #endif // !GAME
