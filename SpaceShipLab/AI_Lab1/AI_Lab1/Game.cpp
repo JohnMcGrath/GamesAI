@@ -32,6 +32,9 @@ void Game::run()
 
 	//Initialise the type of enemie that follows the player
 	e1.Initialise(1);
+	e2.Initialise(2);
+
+	w1.Initialise();
 
 	while (m_window.isOpen())
 	{
@@ -171,6 +174,24 @@ void Game::update(sf::Time t_deltaTime)
 		enemies[i].Update(m_player->getPosition(), centrePoint, 1);
 	}
 
+	//Workers
+	if (workerCounter < 40)
+	{
+		workerCounter++;
+	}
+	if (workerCounter >= 40 & workersEns.size() < 15)
+	{
+		std::cout << "Worker Spawned" << std::endl;
+		workerCounter = 0;
+		e2.setPosition(sf::Vector2f((rand() % -100 + 100) + m_player->getPosition().x, (rand() % -100 + 100) + m_player->getPosition().y));
+		workersEns.push_back(e2);
+	}
+
+	for (size_t j = 0; j < workersEns.size(); j++)
+	{
+		workersEns[j].Update(m_player->getPosition(), centrePoint, 2);
+	}
+	
 	if (m_exitGame)
 	{
 		m_window.close();
@@ -193,7 +214,11 @@ void Game::render()
 		m_window.draw(enemies[i].getSprite());
 	}
 
-	
+	for (size_t i = 0; i < workersEns.size(); i++)
+	{
+		m_window.draw(workersEns[i].getSprite());
+	}
+
 	for (size_t i = 0; i < bullets.size(); i++)
 	{
 		m_window.draw(bullets[i].m_shape);

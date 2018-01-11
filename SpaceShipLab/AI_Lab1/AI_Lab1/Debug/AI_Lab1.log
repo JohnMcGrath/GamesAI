@@ -1,22 +1,10 @@
-﻿  Worker.cpp
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\worker.cpp(14): warning C4305: 'argument': truncation from 'double' to 'float'
-  Generating Code...
-  Compiling...
-  Game.cpp
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(12): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(27): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(161): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\game.cpp(164): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-  Generating Code...
-  Compiling...
-  main.cpp
-  Player.cpp
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(20): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(44): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(111): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  Enemy.cpp
+﻿  Enemy.cpp
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(60): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(75): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(136): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(137): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(139): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(149): warning C4305: 'argument': truncation from 'double' to 'float'
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.exe
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.pdb (Partial PDB)

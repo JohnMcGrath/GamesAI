@@ -32,10 +32,19 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 		sf::Vector2f travelPoint = Normalise(m_velocity) * dist;
 		travelPoint += m_position;
 
-		float randAngle = (rand() % 360) * (3.142 / 180);
-		sf::Vector2f newTravelPoint;
-		newTravelPoint = sf::Vector2f((rad * sin(randAngle) + newTravelPoint.x), (rad * cos(randAngle) + newTravelPoint.y));
+		if (timer >= 10)
+		{
+			std::cout << "Ship Chnage" << std::endl;
+			timer = 0;
+			randAngle = (rand() % 75 + 15) * (3.142 / 180);
+		}
+		
+		else
+		{
+			timer++;
+		}
 
+		newTravelPoint = sf::Vector2f((rad * sin(randAngle) + newTravelPoint.x), (rad * cos(randAngle) + newTravelPoint.y));
 		m_velocity = newTravelPoint - m_position;
 		m_velocity = Normalise(m_velocity);
 		m_velocity * m_maxSpeed;
@@ -116,10 +125,28 @@ sf::Vector2f Enemy::Normalise(sf::Vector2f v)
 }
 
 void Enemy::Initialise(int color) {
-	if (!m_texture.loadFromFile("ASSETS\\IMAGES\\Enemy.png"))
+
+	if (color == 2)
 	{
-		// simple error message if previous call fails
-		std::cout << "problem loading logo" << std::endl;
+		if (!m_texture.loadFromFile("ASSETS\\IMAGES\\Worker.png"))
+		{
+			// simple error message if previous call fails
+			std::cout << "problem loading logo" << std::endl;
+		}
+		m_orientation = rand() % 360;
+		m_velocity = sf::Vector2f(rand() % -100 + 200, rand() % 50);
+		m_maxSpeed = 0.1f;
+		m_sprite.setScale(sf::Vector2f(0.075, 0.075));
+	}
+
+	else
+	{
+		if (!m_texture.loadFromFile("ASSETS\\IMAGES\\Enemy.png"))
+		{
+			// simple error message if previous call fails
+			std::cout << "problem loading logo" << std::endl;
+		}
+		m_sprite.setScale(sf::Vector2f(0.2, 0.2));
 	}
 
 	if (color == 1) m_sprite.setColor(sf::Color::Red);
@@ -128,7 +155,7 @@ void Enemy::Initialise(int color) {
 
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setTexture(m_texture);
-	m_sprite.setScale(sf::Vector2f(0.2, 0.2));
+
 }
 
 void Enemy::Update(sf::Vector2f t, sf::Vector2f screenSize, int typeOfMovement) {

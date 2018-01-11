@@ -40,4 +40,8 @@ private:
 
 	sf::Texture m_texture;
 	sf::Sprite m_sprite; 
+
+	int timer = 40;
+	sf::Vector2f newTravelPoint;
+	float randAngle;
 };

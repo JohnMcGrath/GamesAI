@@ -7,6 +7,7 @@
 #include "Enemy.h"
 #include "Projectile.h"
 #include "math.h"
+#include "Worker.h"
 #include <vector>
 #include <iostream>
 #include <cstdlib>
@@ -15,6 +16,7 @@ class Player;
 class Enemy;
 class Projectile;
 class Bullet;
+class Worker;
 
 static const float VIEW_HEIGHT = 1080.0f;
 
@@ -25,9 +27,14 @@ public:
 
 	//Enemy * m_arriveEnemy = new Enemy();
 	//std::vector<Enemy*> enemies;
+	Worker w1;
+	std::vector<Worker> workers;
 
 	Enemy e1;
 	std::vector<Enemy> enemies;
+
+	Enemy e2;
+	std::vector<Enemy> workersEns;
 
 	Bullet  b1;
 	std::vector<Bullet> bullets;
@@ -63,6 +70,7 @@ private:
 	sf::Vector2f normalisedAimDir;
 
 	int spawnCounter = 20;
+	int workerCounter = 20;
 	int bulletCounter = 10;
 };
 
