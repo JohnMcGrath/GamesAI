@@ -46,6 +46,8 @@ void Game::run()
 	e2.Initialise(2);
 	//Boids
 	e3.Initialise(3);
+	//Swarm
+	e4.Initialise(4);
 
 	//Nest gets a random spawn location
 	m_nestSprite.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
@@ -109,6 +111,13 @@ void Game::EnemyHandler()
 		spawnCounter++;
 	}
 
+	if ( spawnCounter >= 40 && swarms.size() < 4)
+	{
+		e4.setPosInSwarm(swarms.size());
+		e4.setPosition(sf::Vector2f(rand() % 3200, rand() % 2500));
+		swarms.push_back(e4);
+	}
+
 	//6 Nest will spawn on the map
 	if (nests.size() < 6)
 	{
@@ -126,6 +135,22 @@ void Game::EnemyHandler()
 		int tempNestPos = rand() % nests.size();
 		e1.setPosition(sf::Vector2f(nests[tempNestPos].getPosition().x, nests[tempNestPos].getPosition().y));
 		enemies.push_back(e1);
+	}
+	for (size_t i = 0; i < swarms.size(); i++)
+	{
+		if (swarms[i].getPosInSwarm() == 0)
+		{
+			std::cout << "Pos in Swarm: " << swarms[i].getPosInSwarm() << " " << swarms[i].getPosition().x << " " << swarms[i].getPosition().y << std::endl;
+			swarms[i].Update(m_player->getPosition(), centrePoint, 3);
+		}
+		
+		else
+		{
+			//Vector to represent the midpoint between the player and the member of the swarm ahead of them
+			sf::Vector2f temp = sf::Vector2f(((m_player->getPosition().x + swarms[i -1].getPosition().x) / 2), ((m_player->getPosition().y + swarms[i- 1].getPosition().y) / 2));
+			std::cout << "Pos in Swarm: " << swarms[i].getPosInSwarm() << " " << swarms[i].getPosition().x << " "<< swarms[i].getPosition().y << std::endl;
+			swarms[i].Update(temp, centrePoint, 3);
+		}
 	}
 
 	for (size_t i = 0; i < enemies.size(); i++)
@@ -183,7 +208,7 @@ void Game::WorkerHandler()
 	if (workersEns.size() < 15)
 	{
 		std::cout << "Worker Spawned" << std::endl;
-		e2.setPosition(sf::Vector2f((rand() % -500 + 500) + m_player->getPosition().x, (rand() % -500 + 500) + m_player->getPosition().y));
+		e2.setPosition(sf::Vector2f(rand() % 3500, rand() % 3500));
 		workersEns.push_back(e2);
 	}
 	//Get player collsion box
@@ -433,6 +458,11 @@ void Game::render()
 	for (size_t i = 0; i < workersEns.size(); i++)
 	{
 		m_window.draw(workersEns[i].getSprite());
+	}
+
+	for (size_t i = 0; i < swarms.size(); i++)
+	{
+		m_window.draw(swarms[i].getSprite());
 	}
 
 	for (size_t i = 0; i < bullets.size(); i++)

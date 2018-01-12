@@ -48,6 +48,12 @@ public:
 	std::vector<Enemy> boids;
 
 	/// <summary>
+	///Blueprint for the boids
+	/// <summary>
+	Enemy e4;
+	std::vector<Enemy> swarms;
+
+	/// <summary>
 	///Bullets used by entities
 	/// <summary>
 	Bullet  b1;

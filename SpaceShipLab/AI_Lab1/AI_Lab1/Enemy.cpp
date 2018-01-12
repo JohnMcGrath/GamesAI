@@ -19,7 +19,8 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 
 		m_velocity *= timeToTarget;
 		float l = Magnitude(m_velocity);
-		if (l > m_maxSpeed) {
+		if (l > m_maxSpeed) 
+		{
 			m_velocity = Normalise(m_velocity);
 			m_velocity *= m_maxSpeed;
 		}
@@ -52,6 +53,31 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 		m_velocity = Normalise(m_velocity);
 		m_velocity * m_maxSpeed;
 	}
+
+	//Algorithm For the Swarm behaviour
+	if (typeOfMovement == 3)
+	{
+		float timeToTarget = 0.25f;
+
+		m_velocity = t - m_position;
+		
+		m_velocity *= timeToTarget;
+		float l = Magnitude(m_velocity);
+		if (l > m_maxSpeed) 
+		{
+			m_velocity = Normalise(m_velocity);
+			if (posInSwarm == 0)
+			{
+				m_velocity *= m_maxSpeed;
+			}
+			else
+			{
+				m_velocity *= (m_maxSpeed* (1 / (posInSwarm + .1f)));
+			}
+		}
+
+	}
+
 }
 
 void Enemy::FireBullets(sf::Vector2f target) 
@@ -150,11 +176,8 @@ void Enemy::Initialise(int color) {
 
 	if (color == 1) m_sprite.setColor(sf::Color::Green);
 	if (color == 2) m_sprite.setColor(sf::Color::Blue);
-	if (color == 3)
-	{
-		//boidTarget = sf::Vector2f(rand() % 1000, rand() % 1000);
-		m_sprite.setColor(sf::Color::Cyan);
-	}
+	if (color == 3) m_sprite.setColor(sf::Color::Cyan);
+	if (color == 4) m_sprite.setColor(sf::Color::Red);
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setTexture(m_texture);
 }

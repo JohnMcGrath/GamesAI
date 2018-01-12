@@ -56,6 +56,7 @@ public:
 	sf::Sprite getSprite() { return m_sprite; }
 	sf::RectangleShape getCollisionBox();
 	int getHitsTaken() { return m_hitsTaken; }
+	int getPosInSwarm() { return posInSwarm; }
 
 	/// <summary>
 	///Setters
@@ -66,6 +67,7 @@ public:
 	void setTexture(sf::Texture newTexture) { m_texture = newTexture; }
 	void setSprite(sf::Sprite newSprite) { m_sprite = newSprite; }
 	void addHitsTaken(int hit) { m_hitsTaken += hit; }
+	void setPosInSwarm(int newPos) { posInSwarm = newPos; }
 
 	/// <summary>
 	/// CHnage's velocity according to orientation
@@ -137,4 +139,6 @@ private:
 	/// <summary>
 	sf::Vector2f hudPos;
 	sf::CircleShape hudShape;
+
+	int posInSwarm;
 };
