@@ -132,13 +132,13 @@ void Game::EnemyHandler()
 	{
 		enemies[i].Update(m_player->getPosition(), centrePoint, 1);
 
+		//Get player collision box
+		playerBound = m_player->getSprite().getGlobalBounds();
+		playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
+		playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
+
 		for (size_t j = 0; j < enemies[i].getBullets().size(); j++)
 		{
-			//Get player collision box
-			playerBound = m_player->getSprite().getGlobalBounds();
-			playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
-			playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
-
 			//Get bullet of the enemy's collision box
 			bulletBound = enemies[i].getBullets()[j].m_shape.getGlobalBounds();
 			bulletBoundShape.setSize(sf::Vector2f(bulletBound.width, bulletBound.height));
@@ -186,6 +186,10 @@ void Game::WorkerHandler()
 		e2.setPosition(sf::Vector2f((rand() % -500 + 500) + m_player->getPosition().x, (rand() % -500 + 500) + m_player->getPosition().y));
 		workersEns.push_back(e2);
 	}
+	//Get player collsion box
+	playerBound = m_player->getSprite().getGlobalBounds();
+	playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
+	playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
 
 	//Update loop
 	for (size_t j = 0; j < workersEns.size(); j++)
@@ -197,17 +201,33 @@ void Game::WorkerHandler()
 		workerBoundShape.setSize(sf::Vector2f(workerBound.width, workerBound.height));
 		workerBoundShape.setPosition(sf::Vector2f(workerBound.left, workerBound.top));
 
-		//Get player collsion box
-		playerBound = m_player->getSprite().getGlobalBounds();
-		playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
-		playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
-
 		if (workerBoundShape.getGlobalBounds().intersects(playerBoundShap.getGlobalBounds()))
 		{
 			//delete the worker and gain a point
 			workersEns.erase(workersEns.begin() + j);
 			score++;
 			break;
+		}
+	}
+	for (size_t k = 0; k < enemies.size(); k++)
+	{
+		//Same variables are reused
+		workerBound = enemies[k].getSprite().getGlobalBounds();
+		workerBoundShape.setSize(sf::Vector2f(workerBound.width, workerBound.height));
+		workerBoundShape.setPosition(sf::Vector2f(workerBound.left, workerBound.top));
+		if (workerBoundShape.getGlobalBounds().intersects(playerBoundShap.getGlobalBounds()))
+		{
+			enemies.erase(enemies.begin() + k);
+
+			//If the player is not invincible
+			if (!m_player->getInvincible())
+			{
+				//Reduce Health by 10
+				m_player->setInvincible(true);
+				m_player->invinTimer = 0;
+				m_player->setHealth(10);
+				std::cout << "Player Health: " << m_player->getHealth() << std::endl;
+			}
 		}
 	}
 }
@@ -279,6 +299,20 @@ void Game::BulletHandler()
 					break;
 				}
 			}
+			for (size_t j = 0; j < boids.size(); j++)
+			{
+				//Gets the enemy boid's bounding box
+				enemyBound = boids[j].getSprite().getGlobalBounds();
+				enemyBoundShap.setSize(sf::Vector2f(enemyBound.width, enemyBound.height));
+				enemyBoundShap.setPosition(sf::Vector2f(enemyBound.left, enemyBound.top));
+				
+				if (bulletBoundShape.getGlobalBounds().intersects(enemyBoundShap.getGlobalBounds()))
+				{
+					bullets.erase(bullets.begin() + i);
+					boids.erase(boids.begin() + j);
+					break;
+				}
+			}
 		}
 	}
 }
@@ -345,9 +379,6 @@ void Game::update(sf::Time t_deltaTime)
 	EnemyHandler();
 	WorkerHandler();
 	
-
-
-
 	if (m_exitGame)
 	{
 		m_window.close();
@@ -417,9 +448,10 @@ void Game::setupSprite()
 		// simple error message if previous call fails
 		std::cout << "problem loading logo" << std::endl;
 	}
+	m_logoSprite.setPosition(-200, - 200);
 	m_logoSprite.setScale(sf::Vector2f(3.5, 3.5));
 	m_logoSprite.setTexture(m_logoTexture);
-	m_logoTexture.setRepeated(true);
+	m_logoSprite.setPosition(-500, -500);
 
 	if (!m_scoreFont.loadFromFile("ASSETS\\FONTS\\ariblk.ttf"))
 	{
