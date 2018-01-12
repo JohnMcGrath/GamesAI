@@ -11,6 +11,7 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 		m_velocity * m_maxSpeed;
 	}
 
+	//Algorithm for seeking a target
 	if (typeOfMovement == 1)
 	{
 		float timeToTarget = 0.5f;
@@ -22,9 +23,12 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 			m_velocity = Normalise(m_velocity);
 			m_velocity *= m_maxSpeed;
 		}
+
+		//If the enemies seeks, it will also fire at the enemy
 		FireBullets(t);
 	}
 
+	//Algorithm for wandering
 	if (typeOfMovement == 2)
 	{
 		float dist = 1000;
@@ -48,22 +52,6 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 		m_velocity = Normalise(m_velocity);
 		m_velocity * m_maxSpeed;
 	}
-
-	if (typeOfMovement == 3)
-	{
-		float dist = 1200;
-		float rad = 400;
-		sf::Vector2f travelPoint = Normalise(m_velocity) * dist;
-		travelPoint += m_position;
-
-		float randAngle = (rand() % 360) * (3.142 / 180);
-		sf::Vector2f newTravelPoint;
-		newTravelPoint = sf::Vector2f((rad * sin(randAngle) + newTravelPoint.x), (rad * cos(randAngle) + newTravelPoint.y));
-
-		m_velocity = newTravelPoint - m_position;
-		m_velocity = Normalise(m_velocity);
-		m_velocity * 1.5f;
-	}
 }
 
 void Enemy::FireBullets(sf::Vector2f target) 
@@ -78,9 +66,13 @@ void Enemy::FireBullets(sf::Vector2f target)
 	{
 		bulletCounter = 0;
 		b.m_shape.setPosition(m_sprite.getPosition());
+
+		//Bullets coloured green so they're easy to identify
 		b.m_shape.setFillColor(sf::Color::Green);
-		b.m_maxSpeed = (b.m_maxSpeed / 2);
-		b.m_velocity = aimDirNormal * b.m_maxSpeed;
+
+		//Bullet speed is reduced compared to the player's 
+		//so they have a chance to escape enemy fire
+		b.m_velocity = aimDirNormal * (b.m_maxSpeed/3.0f);
 
 		bullets.push_back(b);
 	}
@@ -100,10 +92,6 @@ void Enemy::FireBullets(sf::Vector2f target)
 			break;
 		}
 	}
-		
-		
-	
-	
 }
 
 float Enemy::orientate()
@@ -176,7 +164,15 @@ void Enemy::Initialise(int color) {
 
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setTexture(m_texture);
+}
 
+sf::RectangleShape Enemy::getCollisionBox() 
+{
+	enemyCol = m_sprite.getGlobalBounds();
+	enemyColBox.setSize(sf::Vector2f(enemyCol.width, enemyCol.height));
+	enemyColBox.setPosition(sf::Vector2f(enemyCol.left, enemyCol.height));
+
+	return enemyColBox;
 }
 
 void Enemy::Update(sf::Vector2f t, sf::Vector2f screenSize, int typeOfMovement) {

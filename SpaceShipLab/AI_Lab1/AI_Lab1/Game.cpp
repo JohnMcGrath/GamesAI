@@ -97,7 +97,7 @@ void Game::EnemyHandler()
 
 	if (nests.size() < 6)
 	{
-		m_nestSprite.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
+		m_nestSprite.setPosition(sf::Vector2f(rand() % 3200, rand() % 2500));
 		m_nestSprite.setOrigin(sf::Vector2f(m_nestSprite.getPosition().x + (m_nestSprite.getGlobalBounds().width / 2), m_nestSprite.getPosition().y + (m_nestSprite.getGlobalBounds().height / 2)));
 		nests.push_back(m_nestSprite);
 	}
@@ -117,15 +117,10 @@ void Game::EnemyHandler()
 }
 void Game::WorkerHandler()
 {
-	if (workerCounter < 40)
-	{
-		workerCounter++;
-	}
-	if (workerCounter >= 40 & workersEns.size() < 15)
+	if (workersEns.size() < 15)
 	{
 		std::cout << "Worker Spawned" << std::endl;
-		workerCounter = 0;
-		e2.setPosition(sf::Vector2f((rand() % -100 + 100) + m_player->getPosition().x, (rand() % -100 + 100) + m_player->getPosition().y));
+		e2.setPosition(sf::Vector2f((rand() % -500 + 500) + m_player->getPosition().x, (rand() % -500 + 500) + m_player->getPosition().y));
 		workersEns.push_back(e2);
 	}
 

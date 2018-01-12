@@ -44,6 +44,8 @@ public:
 	sf::Texture getTexture() { return m_texture; }
 	sf::Sprite getSprite() { return m_sprite; }
 
+	sf::RectangleShape getCollisionBox();
+
 private:
 	sf::Vector2f m_velocity;
 	sf::Vector2f m_position = sf::Vector2f(500, 500);
@@ -58,8 +60,8 @@ private:
 	sf::Vector2f newTravelPoint;
 	float randAngle;
 
-	sf::FloatRect workerCol;
-	sf::RectangleShape workerColBox;
+	sf::FloatRect enemyCol;
+	sf::RectangleShape enemyColBox;
 
 	int bulletCounter;
 	sf::Vector2f enemyCentre;
