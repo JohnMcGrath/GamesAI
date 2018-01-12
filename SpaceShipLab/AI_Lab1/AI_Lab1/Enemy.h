@@ -46,6 +46,9 @@ public:
 
 	sf::RectangleShape getCollisionBox();
 
+	int getHitsTaken() { return m_hitsTaken; }
+	void addHitsTaken(int hit) { m_hitsTaken += hit; }
+
 private:
 	sf::Vector2f m_velocity;
 	sf::Vector2f m_position = sf::Vector2f(500, 500);
@@ -67,4 +70,6 @@ private:
 	sf::Vector2f enemyCentre;
 	sf::Vector2f aimDir;
 	sf::Vector2f aimDirNormal;
+
+	int m_hitsTaken = 0;
 };

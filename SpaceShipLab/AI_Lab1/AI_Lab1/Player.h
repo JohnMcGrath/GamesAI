@@ -34,6 +34,14 @@ public:
 	sf::Texture getTexture() { return m_texture; }
 	sf::Sprite getSprite() { return m_sprite; }
 
+	int getHealth() { return m_health; }
+	void setHealth(int h) { m_health -= h; }
+
+	bool getInvincible() { return invincile; }
+	void setInvincible(bool tf) { invincile = tf; }
+
+	int invinTimer = 0;
+
 private:
 	sf::Vector2f tempVec;
 	sf::Vector2f m_velocity;
@@ -45,4 +53,7 @@ private:
 
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
+	int m_health = 100;
+
+	bool invincile = false;
 };

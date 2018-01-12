@@ -57,7 +57,7 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 void Enemy::FireBullets(sf::Vector2f target) 
 {
 	
-	if (bulletCounter < 30)
+	if (bulletCounter < 200)
 	{
 		bulletCounter++;
 	}
@@ -70,9 +70,7 @@ void Enemy::FireBullets(sf::Vector2f target)
 		//Bullets coloured green so they're easy to identify
 		b.m_shape.setFillColor(sf::Color::Green);
 
-		//Bullet speed is reduced compared to the player's 
-		//so they have a chance to escape enemy fire
-		b.m_velocity = aimDirNormal * (b.m_maxSpeed/3.0f);
+		b.m_velocity = aimDirNormal * b.m_maxSpeed;
 
 		bullets.push_back(b);
 	}
@@ -158,10 +156,9 @@ void Enemy::Initialise(int color) {
 		m_sprite.setScale(sf::Vector2f(0.2, 0.2));
 	}
 
-	if (color == 1) m_sprite.setColor(sf::Color::Red);
+	if (color == 1) m_sprite.setColor(sf::Color::Green);
 	if (color == 2) m_sprite.setColor(sf::Color::Blue);
-	if (color == 3) m_sprite.setColor(sf::Color::Cyan);
-
+	if (color == 3) m_sprite.setColor(sf::Color::White);
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setTexture(m_texture);
 }

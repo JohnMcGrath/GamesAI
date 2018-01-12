@@ -31,11 +31,17 @@ public:
 	Worker w1;
 	std::vector<Worker> workers;
 
+	//Blueprint for the Enemies that Spawn from Nests
 	Enemy e1;
 	std::vector<Enemy> enemies;
 
+	//Blueprint for the Workers
 	Enemy e2;
 	std::vector<Enemy> workersEns;
+
+	//Blueprint for the boids
+	Enemy e3;
+	std::vector<Enemy> boids;
 
 	Bullet  b1;
 	std::vector<Bullet> bullets;
@@ -61,6 +67,7 @@ private:
 	void WorkerHandler();
 	void BulletHandler();
 
+	sf::Vector2f CheckForNearestWorker(sf::Vector2f currentPos);
 	sf::RenderWindow m_window; // main SFML window
 	sf::View playerView;
 	sf::Font m_ArialBlackfont; // font used by message
@@ -99,6 +106,10 @@ private:
 	// Create a text
 	sf::Text m_scoreText;
 	sf::Text m_scorePreText;
+
+	// Create a text
+	sf::Text m_healthText;
+	sf::Text m_healthPreText;
 
 	int nestCounter = 0;
 };

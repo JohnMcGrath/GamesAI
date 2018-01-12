@@ -33,6 +33,7 @@ void Game::run()
 	//Initialise the type of enemie that follows the player
 	e1.Initialise(1);
 	e2.Initialise(2);
+	e3.Initialise(3);
 
 	w1.Initialise();
 
@@ -98,7 +99,7 @@ void Game::EnemyHandler()
 	if (nests.size() < 6)
 	{
 		m_nestSprite.setPosition(sf::Vector2f(rand() % 3200, rand() % 2500));
-		m_nestSprite.setOrigin(sf::Vector2f(m_nestSprite.getPosition().x + (m_nestSprite.getGlobalBounds().width / 2), m_nestSprite.getPosition().y + (m_nestSprite.getGlobalBounds().height / 2)));
+		m_nestSprite.setOrigin(m_nestSprite.getGlobalBounds().width, m_nestSprite.getGlobalBounds().height);
 		nests.push_back(m_nestSprite);
 	}
 
@@ -113,6 +114,37 @@ void Game::EnemyHandler()
 	for (size_t i = 0; i < enemies.size(); i++)
 	{
 		enemies[i].Update(m_player->getPosition(), centrePoint, 1);
+
+		for (size_t j = 0; j < enemies[i].getBullets().size(); j++)
+		{
+			playerBound = m_player->getSprite().getGlobalBounds();
+			playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
+			playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
+
+
+			bulletBound = enemies[i].getBullets()[j].m_shape.getGlobalBounds();
+			bulletBoundShape.setSize(sf::Vector2f(bulletBound.width, bulletBound.height));
+			bulletBoundShape.setPosition(sf::Vector2f(bulletBound.left, bulletBound.top));
+
+			if (playerBoundShap.getGlobalBounds().intersects(bulletBoundShape.getGlobalBounds()))
+			{
+				if (!m_player->getInvincible())
+				{
+					m_player->setInvincible(true);
+					m_player->invinTimer = 0;
+					m_player->setHealth(10);
+					std::cout << "Player Health: " << m_player->getHealth() << std::endl;
+				}
+			}
+		}
+	}
+	if (m_player->getInvincible())
+	{
+		m_player->invinTimer++;
+	}
+	if (m_player->invinTimer >= 100)
+	{
+		m_player->setInvincible(false);
 	}
 }
 void Game::WorkerHandler()
@@ -163,7 +195,6 @@ void Game::BulletHandler()
 		}
 
 	}
-
 	playerCentre = sf::Vector2f(m_player->getPosition());
 	cursorPos = sf::Vector2f(10 * sin(m_player->getOrientation()) + m_player->getPosition().x, 10 * -cos(m_player->getOrientation()) + m_player->getPosition().y);
 	aimDir = cursorPos - playerCentre;
@@ -175,19 +206,18 @@ void Game::BulletHandler()
 
 		if (m_player->Magnitude(bullets[i].m_shape.getPosition() - m_player->getPosition()) > 2000)
 		{
-			std::cout << "Bullet Removed" << std::endl;
 			bullets.erase(bullets.begin() + i);
 			break;
 		}
 
 		else
 		{
+			bulletBound = bullets[i].m_shape.getGlobalBounds();
+			bulletBoundShape.setSize(sf::Vector2f(bulletBound.width, bulletBound.height));
+			bulletBoundShape.setPosition(sf::Vector2f(bulletBound.left, bulletBound.top));
+
 			for (size_t k = 0; k < enemies.size(); k++)
 			{
-				bulletBound = bullets[i].m_shape.getGlobalBounds();
-				bulletBoundShape.setSize(sf::Vector2f(bulletBound.width, bulletBound.height));
-				bulletBoundShape.setPosition(sf::Vector2f(bulletBound.left, bulletBound.top));
-
 				enemyBound = enemies[k].getSprite().getGlobalBounds();
 				enemyBoundShap.setSize(sf::Vector2f(enemyBound.width, enemyBound.height));
 				enemyBoundShap.setPosition(sf::Vector2f(enemyBound.left, enemyBound.top));
@@ -195,12 +225,33 @@ void Game::BulletHandler()
 				if (bulletBoundShape.getGlobalBounds().intersects(enemyBoundShap.getGlobalBounds()))
 				{
 					bullets.erase(bullets.begin() + i);
-					enemies.erase(enemies.begin() + k);
+					enemies[k].addHitsTaken(1);
+					if (enemies[k].getHitsTaken() >= 4)
+					{
+						enemies.erase(enemies.begin() + k);
+					}
 					break;
 				}
 			}
 		}
 	}
+}
+
+sf::Vector2f Game::CheckForNearestWorker(sf::Vector2f currentPos)
+{
+	float currentAns = -1;
+	float finalAns = 5000;
+	int pos = 0;
+	for (size_t i = 0; i < workers.size(); i++)
+	{
+		currentAns = m_player->Magnitude(workers[i].getSprite().getPosition() - currentPos);
+		if (currentAns < finalAns)
+		{
+			finalAns = currentAns;
+			pos = i;
+		}
+	}
+	return workers[pos].getPosition();
 }
 
 /// <summary>
@@ -209,12 +260,25 @@ void Game::BulletHandler()
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
+	if (boids.size() < 2)
+	{
+		e3.setPosition(sf::Vector2f(playerView.getSize().x - (rand()%500),playerView.getSize().y-(rand() % 500)));
+		boids.push_back(e3);
+	}
+
 	m_scorePreText.setPosition(sf::Vector2f(m_player->getPosition().x - 500, m_player->getPosition().y - 450));
 	m_scoreText.setPosition(sf::Vector2f(m_scorePreText.getPosition().x + (m_scorePreText.getCharacterSize() * (m_scorePreText.getString().getSize()/1.5)), m_scorePreText.getPosition().y));
 	std::stringstream sc;
 	sc << score;
 	m_scoreText.setString(sc.str().c_str());
 	m_scorePreText.setString("Score: ");
+
+	m_healthPreText.setPosition(m_scorePreText.getPosition().x, m_scorePreText.getPosition().y + 50);
+	m_healthText.setPosition(m_healthPreText.getPosition().x + (m_healthPreText.getCharacterSize() * (m_healthPreText.getString().getSize()/1.5)), m_healthPreText.getPosition().y);
+	std::stringstream hl;
+	hl << m_player->getHealth();
+	m_healthText.setString(hl.str().c_str());
+	m_healthPreText.setString("Health: ");
 
 	//View
 	m_player->Update(centrePoint);
@@ -254,7 +318,6 @@ void Game::render()
 
 	for (size_t i = 0; i < nests.size(); i++)
 	{
-		//m_nestSprite.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
 		std::cout << nests[i].getPosition().x << " " << nests[i].getPosition().y << std::endl;
 		m_window.draw(nests[i]);
 	}
@@ -272,6 +335,8 @@ void Game::render()
 	m_window.draw(m_player->getSprite());
 	m_window.draw(m_scoreText);
 	m_window.draw(m_scorePreText);
+	m_window.draw(m_healthText);
+	m_window.draw(m_healthPreText);
 
 	m_window.display();
 }
@@ -300,6 +365,11 @@ void Game::setupSprite()
 	m_scorePreText.setFont(m_scoreFont);
 	m_scoreText.setFillColor(sf::Color::White);
 	m_scoreText.setFont(m_scoreFont);
+
+	m_healthPreText.setFillColor(sf::Color::White);
+	m_healthPreText.setFont(m_scoreFont);
+	m_healthText.setFillColor(sf::Color::White);
+	m_healthText.setFont(m_scoreFont);
 
 	if (!m_nestTexture.loadFromFile("ASSETS\\IMAGES\\nest.png"))
 	{
