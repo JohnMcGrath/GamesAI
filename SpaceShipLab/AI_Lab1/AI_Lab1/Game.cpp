@@ -111,11 +111,11 @@ void Game::EnemyHandler()
 		spawnCounter++;
 	}
 
-	if ( spawnCounter >= 40 && swarms.size() < 4)
+	if ( spawnCounter >= 40 && predators.size() < 4)
 	{
-		e4.setPosInSwarm(swarms.size());
+		e4.setPosInSwarm(predators.size());
 		e4.setPosition(sf::Vector2f(rand() % 3200, rand() % 2500));
-		swarms.push_back(e4);
+		predators.push_back(e4);
 	}
 
 	//6 Nest will spawn on the map
@@ -136,21 +136,37 @@ void Game::EnemyHandler()
 		e1.setPosition(sf::Vector2f(nests[tempNestPos].getPosition().x, nests[tempNestPos].getPosition().y));
 		enemies.push_back(e1);
 	}
-	for (size_t i = 0; i < swarms.size(); i++)
+	for (size_t i = 0; i < predators.size(); i++)
 	{
-		if (swarms[i].getPosInSwarm() == 0)
+		if (predators[i].getPosInSwarm() == 0)
 		{
-			std::cout << "Pos in Swarm: " << swarms[i].getPosInSwarm() << " " << swarms[i].getPosition().x << " " << swarms[i].getPosition().y << std::endl;
-			swarms[i].Update(m_player->getPosition(), centrePoint, 3);
+			predators[i].Update(m_player->getPosition(), centrePoint, 3);
 		}
 		
 		else
 		{
-			//Vector to represent the midpoint between the player and the member of the swarm ahead of them
-			sf::Vector2f temp = sf::Vector2f(((m_player->getPosition().x + swarms[i -1].getPosition().x) / 2), ((m_player->getPosition().y + swarms[i- 1].getPosition().y) / 2));
-			std::cout << "Pos in Swarm: " << swarms[i].getPosInSwarm() << " " << swarms[i].getPosition().x << " "<< swarms[i].getPosition().y << std::endl;
-			swarms[i].Update(temp, centrePoint, 3);
+			//Vector to represent the midpoint between the player and the member of the predator ahead of them
+			sf::Vector2f temp = sf::Vector2f(((m_player->getPosition().x + predators[i -1].getPosition().x) / 2), ((m_player->getPosition().y + predators[i- 1].getPosition().y) / 2));
+			predators[i].Update(temp, centrePoint, 3);
 		}
+
+			enemyBound = predators[i].getSprite().getGlobalBounds();
+			enemyBoundShap.setSize(sf::Vector2f(enemyBound.width, enemyBound.height));
+			enemyBoundShap.setPosition(sf::Vector2f(enemyBound.left, enemyBound.top));
+
+			for (size_t k = 0; k < bullets.size(); k++)
+			{
+				//Gets the bullets bounding box
+				bulletBound = bullets[k].m_shape.getGlobalBounds();
+				bulletBoundShape.setSize(sf::Vector2f(bulletBound.width, bulletBound.height));
+				bulletBoundShape.setPosition(sf::Vector2f(bulletBound.left, bulletBound.top));
+
+				if (bulletBoundShape.getGlobalBounds().intersects(enemyBoundShap.getGlobalBounds()))
+				{
+					//Hit Predator
+				}
+			}
+			
 	}
 
 	for (size_t i = 0; i < enemies.size(); i++)
@@ -178,7 +194,6 @@ void Game::EnemyHandler()
 					m_player->setInvincible(true);
 					m_player->invinTimer = 0;
 					m_player->setHealth(10);
-					std::cout << "Player Health: " << m_player->getHealth() << std::endl;
 				}
 			}
 		}
@@ -207,7 +222,6 @@ void Game::WorkerHandler()
 {
 	if (workersEns.size() < 15)
 	{
-		std::cout << "Worker Spawned" << std::endl;
 		e2.setPosition(sf::Vector2f(rand() % 3500, rand() % 3500));
 		workersEns.push_back(e2);
 	}
@@ -251,7 +265,6 @@ void Game::WorkerHandler()
 				m_player->setInvincible(true);
 				m_player->invinTimer = 0;
 				m_player->setHealth(10);
-				std::cout << "Player Health: " << m_player->getHealth() << std::endl;
 			}
 		}
 	}
@@ -324,6 +337,7 @@ void Game::BulletHandler()
 					break;
 				}
 			}
+
 			for (size_t j = 0; j < boids.size(); j++)
 			{
 				//Gets the enemy boid's bounding box
@@ -338,6 +352,21 @@ void Game::BulletHandler()
 					break;
 				}
 			}
+
+			/*for (size_t k = 0; k < predators.size(); k++)
+			{
+				//Gets the enemy boid's bounding box
+				enemyBound = predators[k].getSprite().getGlobalBounds();
+				enemyBoundShap.setSize(sf::Vector2f(enemyBound.width, enemyBound.height));
+				enemyBoundShap.setPosition(sf::Vector2f(enemyBound.left, enemyBound.top));
+
+				if (bulletBoundShape.getGlobalBounds().intersects(enemyBoundShap.getGlobalBounds()))
+				{
+					bullets.erase(bullets.begin() + i);
+					predators.erase(predators.begin() + k);
+					break;
+				}
+			}*/
 		}
 	}
 }
@@ -357,12 +386,10 @@ sf::Vector2f Game::CheckForNearestWorker(sf::Vector2f currentPos)
 	{
 			temp = workersEns[i].getSprite().getPosition();
 			currentAns = m_player->Magnitude(temp - currentPos);
-			std::cout << currentAns << std::endl;
 			if (currentAns < finalAns)
 			{
 				finalAns = currentAns;
 				finalPos = temp;
-				std::cout << temp.x << " " << temp.y << std::endl;
 			}
 		}
 		return finalPos;
@@ -460,9 +487,9 @@ void Game::render()
 		m_window.draw(workersEns[i].getSprite());
 	}
 
-	for (size_t i = 0; i < swarms.size(); i++)
+	for (size_t i = 0; i < predators.size(); i++)
 	{
-		m_window.draw(swarms[i].getSprite());
+		m_window.draw(predators[i].getSprite());
 	}
 
 	for (size_t i = 0; i < bullets.size(); i++)

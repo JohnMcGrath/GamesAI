@@ -51,7 +51,7 @@ public:
 	///Blueprint for the boids
 	/// <summary>
 	Enemy e4;
-	std::vector<Enemy> swarms;
+	std::vector<Enemy> predators;
 
 	/// <summary>
 	///Bullets used by entities

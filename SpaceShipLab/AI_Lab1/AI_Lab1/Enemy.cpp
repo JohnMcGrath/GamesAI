@@ -3,6 +3,9 @@
 
 Enemy::Enemy() {}
 
+/// <summary>
+/// Handles Movement
+/// </summary>
 void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 	if (typeOfMovement == 0) 
 	{
@@ -12,6 +15,7 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 	}
 
 	//Algorithm for seeking a target
+	//Used by Nest Spawned Enemies
 	if (typeOfMovement == 1)
 	{
 		float timeToTarget = 0.5f;
@@ -30,6 +34,7 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 	}
 
 	//Algorithm for wandering
+	//Used by workers
 	if (typeOfMovement == 2)
 	{
 		float dist = 1000;
@@ -54,7 +59,8 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 		m_velocity * m_maxSpeed;
 	}
 
-	//Algorithm For the Swarm behaviour
+	//Algorithm For the Swarming behaviour
+	//Used by Predators
 	if (typeOfMovement == 3)
 	{
 		float timeToTarget = 0.25f;
@@ -75,11 +81,15 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 				m_velocity *= (m_maxSpeed* (1 / (posInSwarm + .1f)));
 			}
 		}
-
+		//If the enemies seeks, it will also fire at the enemy
+		FireBullets(t);
 	}
 
 }
 
+/// <summary>
+/// Fire Bullets at target position
+/// </summary>
 void Enemy::FireBullets(sf::Vector2f target) 
 {
 	
@@ -109,15 +119,18 @@ void Enemy::FireBullets(sf::Vector2f target)
 	{
 		bullets[i].m_shape.move(bullets[i].m_velocity);
 
+		//If the distance is great than 200, delete the bullet
 		if (Magnitude(bullets[i].m_shape.getPosition() - m_sprite.getPosition()) > 2000)
 		{
-			std::cout << "Enemy Bullet Removed" << std::endl;
 			bullets.erase(bullets.begin() + i);
 			break;
 		}
 	}
 }
 
+/// <summary>
+/// Adjust velocity according to orientation
+/// </summary>
 float Enemy::orientate()
 {
 	float l = Magnitude(m_velocity);
@@ -149,6 +162,9 @@ sf::Vector2f Enemy::Normalise(sf::Vector2f v)
 
 }
 
+/// <summary>
+/// Initialisation
+/// </summary>
 void Enemy::Initialise(int color) {
 
 	if (color == 2)
@@ -182,6 +198,9 @@ void Enemy::Initialise(int color) {
 	m_sprite.setTexture(m_texture);
 }
 
+/// <summary>
+/// Gets an SF RectShape to represent an objects collision
+/// </summary>
 sf::RectangleShape Enemy::getCollisionBox() 
 {
 	enemyCol = m_sprite.getGlobalBounds();
@@ -191,6 +210,9 @@ sf::RectangleShape Enemy::getCollisionBox()
 	return enemyColBox;
 }
 
+/// <summary>
+/// Update Loop
+/// </summary>
 void Enemy::Update(sf::Vector2f t, sf::Vector2f screenSize, int typeOfMovement) {
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setPosition(m_position);
