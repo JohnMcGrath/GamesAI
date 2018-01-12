@@ -107,7 +107,6 @@ void Game::EnemyHandler()
 		spawnCounter = 0;
 		int tempNestPos = rand() % nests.size();
 		e1.setPosition(sf::Vector2f(nests[tempNestPos].getPosition().x, nests[tempNestPos].getPosition().y));
-		//e1.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
 		enemies.push_back(e1);
 	}
 
@@ -251,6 +250,10 @@ void Game::render()
 
 	for (size_t i = 0; i < enemies.size(); i++)
 	{
+		for (size_t j = 0; j < enemies[i].getBullets().size(); j++)
+		{
+			m_window.draw(enemies[i].getBullets()[j].m_shape);
+		}
 		m_window.draw(enemies[i].getSprite());
 	}
 

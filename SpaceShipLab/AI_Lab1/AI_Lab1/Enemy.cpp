@@ -22,6 +22,7 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 			m_velocity = Normalise(m_velocity);
 			m_velocity *= m_maxSpeed;
 		}
+		FireBullets(t);
 	}
 
 	if (typeOfMovement == 2)
@@ -65,6 +66,46 @@ void Enemy::HandleInput(sf::Vector2f t, int typeOfMovement) {
 	}
 }
 
+void Enemy::FireBullets(sf::Vector2f target) 
+{
+	
+	if (bulletCounter < 30)
+	{
+		bulletCounter++;
+	}
+
+	else
+	{
+		bulletCounter = 0;
+		b.m_shape.setPosition(m_sprite.getPosition());
+		b.m_shape.setFillColor(sf::Color::Green);
+		b.m_maxSpeed = (b.m_maxSpeed / 2);
+		b.m_velocity = aimDirNormal * b.m_maxSpeed;
+
+		bullets.push_back(b);
+	}
+
+	enemyCentre = sf::Vector2f(m_sprite.getPosition());
+	aimDir = target - enemyCentre;
+	aimDirNormal = Normalise(aimDir);
+
+	for (size_t i = 0; i < bullets.size(); i++)
+	{
+		bullets[i].m_shape.move(bullets[i].m_velocity);
+
+		if (Magnitude(bullets[i].m_shape.getPosition() - m_sprite.getPosition()) > 2000)
+		{
+			std::cout << "Enemy Bullet Removed" << std::endl;
+			bullets.erase(bullets.begin() + i);
+			break;
+		}
+	}
+		
+		
+	
+	
+}
+
 float Enemy::orientate()
 {
 	float l = Magnitude(m_velocity);
@@ -80,24 +121,6 @@ float Enemy::orientate()
 
 void Enemy::WrapAround(sf::Vector2f screenSize)
 {
-	/*
-	if (m_position.x + m_sprite.getLocalBounds().width <= 0)
-	{
-		m_position.x = screenSize.x - 1;
-	}
-	if (m_position.x  > screenSize.x)
-	{
-		m_position.x = -1 - m_sprite.getLocalBounds().width;
-	}
-	if (m_position.y + m_sprite.getLocalBounds().height <= 0)
-	{
-		m_position.y = screenSize.y - 1;
-	}
-	if (m_position.y  > screenSize.y)
-	{
-		m_position.y = -1 - m_sprite.getLocalBounds().height;
-	}
-	*/
 }
 
 float Enemy::Distance(sf::Vector2f t)
@@ -158,7 +181,6 @@ void Enemy::Initialise(int color) {
 
 void Enemy::Update(sf::Vector2f t, sf::Vector2f screenSize, int typeOfMovement) {
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
-	//WrapAround(screenSize);
 	m_sprite.setPosition(m_position);
 	m_orientation = orientate();
 	m_sprite.setRotation(m_orientation);

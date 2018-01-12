@@ -1,11 +1,21 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Bullet.h"
+
+class Bullet;
 
 class Enemy
 {
 public:
+	Bullet b;
+	std::vector<Bullet> bullets;
+
 	Enemy();
+
+
+
+	void FireBullets(sf::Vector2f target);
 
 	void HandleInput(sf::Vector2f t, int typeOfMovement);
 	void Initialise(int color);
@@ -14,6 +24,8 @@ public:
 	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }
 	void setPosition(sf::Vector2f newPosition) { m_position = newPosition; }
 	void setOrientation(float newOrientation) { m_orientation = newOrientation; }
+
+	std::vector<Bullet> getBullets() { return bullets; }
 
 	float orientate();
 	void WrapAround(sf::Vector2f screenSize);
@@ -48,4 +60,9 @@ private:
 
 	sf::FloatRect workerCol;
 	sf::RectangleShape workerColBox;
+
+	int bulletCounter;
+	sf::Vector2f enemyCentre;
+	sf::Vector2f aimDir;
+	sf::Vector2f aimDirNormal;
 };
