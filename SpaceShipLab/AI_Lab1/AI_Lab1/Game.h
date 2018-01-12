@@ -24,12 +24,8 @@ static const float VIEW_HEIGHT = 1080.0f;
 class Game
 {
 public:
+	//Pointer to the player object
 	Player * m_player = new Player();
-
-	//Enemy * m_arriveEnemy = new Enemy();
-	//std::vector<Enemy*> enemies;
-	Worker w1;
-	std::vector<Worker> workers;
 
 	//Blueprint for the Enemies that Spawn from Nests
 	Enemy e1;
@@ -43,6 +39,7 @@ public:
 	Enemy e3;
 	std::vector<Enemy> boids;
 
+	//Bullets used by entities
 	Bullet  b1;
 	std::vector<Bullet> bullets;
 	
@@ -67,31 +64,45 @@ private:
 	void WorkerHandler();
 	void BulletHandler();
 
+	//Checks for the nearest worker object, causes frame stutter upon starting app if used
 	sf::Vector2f CheckForNearestWorker(sf::Vector2f currentPos);
-	sf::RenderWindow m_window; // main SFML window
+
+	// main SFML window
+	sf::RenderWindow m_window; 
+	//View that Follows the player
 	sf::View playerView;
-	sf::Font m_ArialBlackfont; // font used by message
-	sf::Text m_welcomeMessage; // text used for message on screen
-	sf::Texture m_logoTexture; // texture used for sfml logo
-	sf::Sprite m_logoSprite; // sprite used for sfml logo
-	bool m_exitGame; // control exiting game
+
+	// texture and sprite used for background
+	sf::Texture m_logoTexture; 
+	sf::Sprite m_logoSprite; 
+
+	// control exiting game
+	bool m_exitGame;
+
+	//centre of screen
 	sf::Vector2f centrePoint;
 
 	sf::Texture m_nestTexture;
 	sf::Sprite m_nestSprite;
 	std::vector<sf::Sprite> nests;
 
+	//Vectors used in calculationg where the player is aiming
 	sf::Vector2f playerCentre;
 	sf::Vector2f cursorPos;
 	sf::Vector2f aimDir;
 	sf::Vector2f normalisedAimDir;
 
+	//Counters used on things that continuosly spawn
 	int spawnCounter = 40;
 	int workerCounter = 20;
 	int bulletCounter = 10;
 
+	//player's score
 	int score = 0;
 
+	//Floats and rectShapes used to represent bounding boxes
+	//Using .getLocalBounds on objects in vector caused some issues
+	//but this resolves them
 	sf::FloatRect bulletBound;
 	sf::RectangleShape bulletBoundShape;
 	sf::FloatRect enemyBound;
@@ -101,13 +112,14 @@ private:
 	sf::FloatRect playerBound;
 	sf::RectangleShape playerBoundShap;
 
-	// Declare and load a font
+	//Font used by all text
 	sf::Font m_scoreFont;
-	// Create a text
+
+	//Score UI Hud
 	sf::Text m_scoreText;
 	sf::Text m_scorePreText;
 
-	// Create a text
+	//Health UI Hud
 	sf::Text m_healthText;
 	sf::Text m_healthPreText;
 

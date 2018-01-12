@@ -5,9 +5,12 @@
 class Player
 {
 public:
+	//Player contructor
 	Player();
 
+	//Handle all input
 	void HandleInput();
+	//Initialiseation Function
 	void Initialise();
 	void Update(sf::Vector2f centrePoint);
 	void setVelocity(sf::Vector2f newVelocity) { m_velocity = newVelocity; }

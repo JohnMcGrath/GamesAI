@@ -1,10 +1,12 @@
-﻿  Enemy.cpp
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(100): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(143): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(144): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(146): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(156): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.cpp(163): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  Player.cpp
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(27): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(57): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\user\desktop\today2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.cpp(134): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Enemy.cpp
+  main.cpp
+  Game.cpp
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.exe
   AI_Lab1.vcxproj -> C:\Users\User\Desktop\Today2018\GamesAI\SpaceShipLab\AI_Lab1\Debug\AI_Lab1.pdb (Partial PDB)

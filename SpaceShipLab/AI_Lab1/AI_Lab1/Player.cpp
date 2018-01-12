@@ -3,6 +3,10 @@
 
 Player::Player() {}
 
+/// <summary>
+/// Guides the player's character
+/// </summary>
+/// <param name="t">Where the player is to go next</param>
 void Player::steerPlayer(sf::Vector2f t)
 {
 	m_velocity = (m_position + t) - m_position;
@@ -10,6 +14,9 @@ void Player::steerPlayer(sf::Vector2f t)
 	m_velocity * m_maxSpeed;
 }
 
+/// <summary>
+/// Adjusts the player's velocity accord to their orientation
+/// </summary>
 float Player::orientate()
 {
 	std::cout << "Win";
@@ -26,10 +33,14 @@ float Player::orientate()
 	}
 }
 
+/// <summary>
+/// Handles all keyboard keys and what they do
+/// </summary>
 void Player::HandleInput()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
+		//Boost forward
 		float x = sin(getOrientation());
 		float y = -cos(getOrientation());
 
@@ -37,28 +48,32 @@ void Player::HandleInput()
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
+		//Stop
 		setVelocity(sf::Vector2f(0, 0));
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		setOrientation(getOrientation() - (4 / (180 / 3.142))); //m_orientation -= 4 / (180 / 3.142);
+		//Rotate
+		setOrientation(getOrientation() - (4 / (180 / 3.142)));
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
+		//Rotate
 		setOrientation(getOrientation() + (4 / (180 / 3.142)));
 	}
 }
 
-float Player::Distance(sf::Vector2f t)
-{
-	return sqrt(((t.x - m_position.x)*(t.x - m_position.x)) + ((t.y - m_position.y)*(t.y - m_position.y)));
-}
-
+/// <summary>
+///Math formula for distance
+/// <summary>
 float Player::Magnitude(sf::Vector2f v)
 {
 	return sqrt((v.x*v.x) + (v.y*v.y));
 }
 
+/// <summary>
+///Math formula for normalising a vector
+/// <summary>
 sf::Vector2f Player::Normalise(sf::Vector2f v)
 {
 	float temp = Magnitude(v);
@@ -71,9 +86,10 @@ sf::Vector2f Player::Normalise(sf::Vector2f v)
 
 }
 
+/// <summary>
+///Initialisation function
+/// <summary>
 void Player::Initialise() {
-	std::cout << "Player Initialise Entered" << std::endl;
-
 	if (!m_texture.loadFromFile("ASSETS\\IMAGES\\Player.png"))
 	{
 		// simple error message if previous call fails
@@ -85,6 +101,10 @@ void Player::Initialise() {
 	m_sprite.setPosition(sf::Vector2f(300, 300)); 
 }
 
+/// <summary>
+/// Function used if player wants to teleport after reachign
+/// end of screen, currently not used
+/// <summary>
 void Player::WrapAround(sf::Vector2f screenSize) 
 {
 	if (m_position.x + m_sprite.getLocalBounds().width <= 0)
@@ -102,9 +122,12 @@ void Player::WrapAround(sf::Vector2f screenSize)
 	if (m_position.y  > screenSize.y)
 	{
 		m_position.y = -1 - m_sprite.getLocalBounds().height;
-	}
+	} 
 }
 
+/// <summary>
+///Update loop for the player
+/// <summary>
 void Player::Update(sf::Vector2f centrePoint) {
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setPosition(m_position);

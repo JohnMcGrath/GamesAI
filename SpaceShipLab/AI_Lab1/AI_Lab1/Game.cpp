@@ -1,44 +1,54 @@
-
 #include "Game.h"
 #include <iostream>
 
 
 
-
+/// <summary>
+///	Constructor
+/// </summary>
 Game::Game() :
 	m_window{ sf::VideoMode{ 1600, 1000, 32 }, "Space Game" },
 	m_exitGame{false} //when true game will exit
 {
 	centrePoint = sf::Vector2f(m_window.getSize().x, m_window.getSize().y);
-	setupSprite(); // load texture
+	setupSprite(); // load textures
 }
 
-
+/// <summary>
+///	Destructor
+/// </summary>
 Game::~Game()
 {
 }
 
-
+/// <summary>
+///	Initial things that are done when the app starts
+/// </summary>
 void Game::run()
 {
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	sf::Time timePerFrame = sf::seconds(1.f / 60.f); // 60 fps
+
+	//Truly randomise
 	srand(time(NULL));
 
 	m_player->Initialise();
 	
+	//Sets the values for the view to follow the player
 	playerView.setSize(sf::Vector2f(VIEW_HEIGHT,VIEW_HEIGHT));
 
-	//Initialise the type of enemie that follows the player
+	//Initialise the original object of each type of enemies
+
+	//Spawn From Nests
 	e1.Initialise(1);
+	//Workers
 	e2.Initialise(2);
+	//Boids
 	e3.Initialise(3);
 
-	w1.Initialise();
-
+	//Nest gets a random spawn location
 	m_nestSprite.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
-	//std::cout << m_nestSprite.getPosition().x << " " << m_nestSprite.getPosition().y << std::endl;
 
 	while (m_window.isOpen())
 	{
@@ -53,10 +63,9 @@ void Game::run()
 		render(); // as many as possible
 	}
 }
+
 /// <summary>
-/// handle user and system events/ input
-/// get key presses/ mouse moves etc. from OS
-/// and user :: Don't do game update here
+///	Resizes the view and screen if the app window is adjusted
 /// </summary>
 void Game::ResizeView(const sf::RenderWindow& window, sf::View view)
 {
@@ -64,6 +73,9 @@ void Game::ResizeView(const sf::RenderWindow& window, sf::View view)
 	playerView.setSize(sf::Vector2f(VIEW_HEIGHT * ratio, VIEW_HEIGHT*ratio));
 }
 
+/// <summary>
+/// Handles if the app is closed or resized.
+/// </summary>
 void Game::processEvents()
 {
 	sf::Event event;
@@ -81,14 +93,15 @@ void Game::processEvents()
 			}
 		}
 
-	
 		if (sf::Event::Resized == event.type)
 		{
 			ResizeView(m_window, playerView);
 		}
 	}
 }
-
+/// <summary>
+/// Handles all events and collisions relating to the enemies and the nests
+/// </summary>
 void Game::EnemyHandler()
 {
 	if (spawnCounter < 40)
@@ -96,15 +109,19 @@ void Game::EnemyHandler()
 		spawnCounter++;
 	}
 
+	//6 Nest will spawn on the map
 	if (nests.size() < 6)
 	{
+		//Nest spawn randomly each time
 		m_nestSprite.setPosition(sf::Vector2f(rand() % 3200, rand() % 2500));
 		m_nestSprite.setOrigin(m_nestSprite.getGlobalBounds().width, m_nestSprite.getGlobalBounds().height);
 		nests.push_back(m_nestSprite);
 	}
 
+	//Uses a spawn counter, no more than 5 nest enemies on screen
 	if (spawnCounter >= 40 & enemies.size() < 5)
 	{
+		//Could spawn at any nest
 		spawnCounter = 0;
 		int tempNestPos = rand() % nests.size();
 		e1.setPosition(sf::Vector2f(nests[tempNestPos].getPosition().x, nests[tempNestPos].getPosition().y));
@@ -117,19 +134,22 @@ void Game::EnemyHandler()
 
 		for (size_t j = 0; j < enemies[i].getBullets().size(); j++)
 		{
+			//Get player collision box
 			playerBound = m_player->getSprite().getGlobalBounds();
 			playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
 			playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
 
-
+			//Get bullet of the enemy's collision box
 			bulletBound = enemies[i].getBullets()[j].m_shape.getGlobalBounds();
 			bulletBoundShape.setSize(sf::Vector2f(bulletBound.width, bulletBound.height));
 			bulletBoundShape.setPosition(sf::Vector2f(bulletBound.left, bulletBound.top));
 
 			if (playerBoundShap.getGlobalBounds().intersects(bulletBoundShape.getGlobalBounds()))
 			{
+				//The player's invincibilty turns on
 				if (!m_player->getInvincible())
 				{
+					//Reduce Health by 10
 					m_player->setInvincible(true);
 					m_player->invinTimer = 0;
 					m_player->setHealth(10);
@@ -138,6 +158,7 @@ void Game::EnemyHandler()
 			}
 		}
 	}
+	//Turns off after time
 	if (m_player->getInvincible())
 	{
 		m_player->invinTimer++;
@@ -146,7 +167,17 @@ void Game::EnemyHandler()
 	{
 		m_player->setInvincible(false);
 	}
+
+	//Using this will cause frame stutter, commenting out increases framerate
+	for (size_t i = 0; i < boids.size(); i++)
+	{
+		boids[i].Update(CheckForNearestWorker(boids[i].getPosition()), playerCentre, 1);
+	}
 }
+
+/// <summary>
+/// Handles all events and collisions relating to the workers
+/// </summary>
 void Game::WorkerHandler()
 {
 	if (workersEns.size() < 15)
@@ -156,20 +187,24 @@ void Game::WorkerHandler()
 		workersEns.push_back(e2);
 	}
 
+	//Update loop
 	for (size_t j = 0; j < workersEns.size(); j++)
 	{
 		workersEns[j].Update(m_player->getPosition(), centrePoint, 2);
 
+		//Get worker collision box
 		workerBound = workersEns[j].getSprite().getGlobalBounds();
 		workerBoundShape.setSize(sf::Vector2f(workerBound.width, workerBound.height));
 		workerBoundShape.setPosition(sf::Vector2f(workerBound.left, workerBound.top));
 
+		//Get player collsion box
 		playerBound = m_player->getSprite().getGlobalBounds();
 		playerBoundShap.setSize(sf::Vector2f(playerBound.width, playerBound.height));
 		playerBoundShap.setPosition(sf::Vector2f(playerBound.left, playerBound.top));
 
 		if (workerBoundShape.getGlobalBounds().intersects(playerBoundShap.getGlobalBounds()))
 		{
+			//delete the worker and gain a point
 			workersEns.erase(workersEns.begin() + j);
 			score++;
 			break;
@@ -177,10 +212,15 @@ void Game::WorkerHandler()
 	}
 }
 
+/// <summary>
+/// Handles all events and collisions relating to the player's bullets
+/// </summary>
 void Game::BulletHandler()
 {
+	//if the space key is held
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
+		//timer
 		if (bulletCounter < 10)
 		{
 			bulletCounter++;
@@ -195,15 +235,18 @@ void Game::BulletHandler()
 		}
 
 	}
+	//Gets the aiming vector between the player and a point slighty, directly ahead of the player
 	playerCentre = sf::Vector2f(m_player->getPosition());
 	cursorPos = sf::Vector2f(10 * sin(m_player->getOrientation()) + m_player->getPosition().x, 10 * -cos(m_player->getOrientation()) + m_player->getPosition().y);
 	aimDir = cursorPos - playerCentre;
 	normalisedAimDir = m_player->Normalise(aimDir);
 
+	//Update each individual bullet
 	for (size_t i = 0; i < bullets.size(); i++)
 	{
 		bullets[i].m_shape.move(bullets[i].m_velocity);
 
+		//If the bullet is a distance of 2000 or more pixels from the player, the shot is deleted
 		if (m_player->Magnitude(bullets[i].m_shape.getPosition() - m_player->getPosition()) > 2000)
 		{
 			bullets.erase(bullets.begin() + i);
@@ -212,12 +255,14 @@ void Game::BulletHandler()
 
 		else
 		{
+			//Gets the bullets bounding box
 			bulletBound = bullets[i].m_shape.getGlobalBounds();
 			bulletBoundShape.setSize(sf::Vector2f(bulletBound.width, bulletBound.height));
 			bulletBoundShape.setPosition(sf::Vector2f(bulletBound.left, bulletBound.top));
 
 			for (size_t k = 0; k < enemies.size(); k++)
 			{
+				//Gets the enemy's bounding box
 				enemyBound = enemies[k].getSprite().getGlobalBounds();
 				enemyBoundShap.setSize(sf::Vector2f(enemyBound.width, enemyBound.height));
 				enemyBoundShap.setPosition(sf::Vector2f(enemyBound.left, enemyBound.top));
@@ -225,6 +270,7 @@ void Game::BulletHandler()
 				if (bulletBoundShape.getGlobalBounds().intersects(enemyBoundShap.getGlobalBounds()))
 				{
 					bullets.erase(bullets.begin() + i);
+					//If the enemy has taken 4 hits
 					enemies[k].addHitsTaken(1);
 					if (enemies[k].getHitsTaken() >= 4)
 					{
@@ -237,14 +283,20 @@ void Game::BulletHandler()
 	}
 }
 
+/// <summary>
+/// Checks to find which worker is the closest
+/// Using this will cause frame stutter, commenting out increases framerate
+/// </summary>
+/// <param name="currentPos">current position of the object checking</param>
 sf::Vector2f Game::CheckForNearestWorker(sf::Vector2f currentPos)
 {
 	float currentAns = -1;
 	float finalAns = 5000;
 	sf::Vector2f finalPos;
-	for (size_t i = 0; i < workers.size(); i++)
+	sf::Vector2f temp;
+	for (size_t i = 0; i < workersEns.size(); i++)
 	{
-		sf::Vector2f temp = workers[i].getSprite().getPosition();
+			temp = workersEns[i].getSprite().getPosition();
 			currentAns = m_player->Magnitude(temp - currentPos);
 			std::cout << currentAns << std::endl;
 			if (currentAns < finalAns)
@@ -254,7 +306,6 @@ sf::Vector2f Game::CheckForNearestWorker(sf::Vector2f currentPos)
 				std::cout << temp.x << " " << temp.y << std::endl;
 			}
 		}
-		//return workers[pos].getPosition();
 		return finalPos;
 }
 
@@ -295,11 +346,7 @@ void Game::update(sf::Time t_deltaTime)
 	WorkerHandler();
 	
 
-	for (size_t i = 0; i < boids.size(); i++)
-	{
-	//	sf::Vector2f tempTarget = sf::Vector2f(rand()%1000, rand()%1000);
-		boids[i].Update(boids[i].boidTarget, playerCentre, 1);
-	}
+
 
 	if (m_exitGame)
 	{
@@ -361,7 +408,7 @@ void Game::render()
 
 
 /// <summary>
-/// load the texture and setup the sprite for the logo
+/// load the textures and fonts,setup of sprites
 /// </summary>
 void Game::setupSprite()
 {
