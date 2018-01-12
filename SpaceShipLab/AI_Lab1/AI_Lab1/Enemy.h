@@ -39,6 +39,7 @@ private:
 	float m_maxSpeed = 2.5f;
 
 	sf::Texture m_texture;
+	sf::Texture m_nestTexture;
 	sf::Sprite m_sprite; 
 
 	int timer = 40;

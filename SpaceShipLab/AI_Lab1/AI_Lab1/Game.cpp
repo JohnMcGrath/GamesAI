@@ -36,6 +36,9 @@ void Game::run()
 
 	w1.Initialise();
 
+	m_nestSprite.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
+	//std::cout << m_nestSprite.getPosition().x << " " << m_nestSprite.getPosition().y << std::endl;
+
 	while (m_window.isOpen())
 	{
 		processEvents(); // as many as possible
@@ -91,10 +94,20 @@ void Game::EnemyHandler()
 	{
 		spawnCounter++;
 	}
+
+	if (nests.size() < 6)
+	{
+		m_nestSprite.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
+		m_nestSprite.setOrigin(sf::Vector2f(m_nestSprite.getPosition().x + (m_nestSprite.getGlobalBounds().width / 2), m_nestSprite.getPosition().y + (m_nestSprite.getGlobalBounds().height / 2)));
+		nests.push_back(m_nestSprite);
+	}
+
 	if (spawnCounter >= 40 & enemies.size() < 5)
 	{
 		spawnCounter = 0;
-		e1.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
+		int tempNestPos = rand() % nests.size();
+		e1.setPosition(sf::Vector2f(nests[tempNestPos].getPosition().x, nests[tempNestPos].getPosition().y));
+		//e1.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
 		enemies.push_back(e1);
 	}
 
@@ -241,6 +254,13 @@ void Game::render()
 		m_window.draw(enemies[i].getSprite());
 	}
 
+	for (size_t i = 0; i < nests.size(); i++)
+	{
+		//m_nestSprite.setPosition(sf::Vector2f(rand() % m_window.getSize().x, rand() % m_window.getSize().y));
+		std::cout << nests[i].getPosition().x << " " << nests[i].getPosition().y << std::endl;
+		m_window.draw(nests[i]);
+	}
+
 	for (size_t i = 0; i < workersEns.size(); i++)
 	{
 		m_window.draw(workersEns[i].getSprite());
@@ -282,4 +302,11 @@ void Game::setupSprite()
 	m_scorePreText.setFont(m_scoreFont);
 	m_scoreText.setFillColor(sf::Color::White);
 	m_scoreText.setFont(m_scoreFont);
+
+	if (!m_nestTexture.loadFromFile("ASSETS\\IMAGES\\nest.png"))
+	{
+		std::cout << "problem loading nest" << std::endl;
+	}
+	m_nestSprite.setTexture(m_nestTexture);
+	m_nestSprite.setScale(sf::Vector2f(0.2, 0.2));
 }

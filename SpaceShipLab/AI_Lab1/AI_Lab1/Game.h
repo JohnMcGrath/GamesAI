@@ -70,12 +70,16 @@ private:
 	bool m_exitGame; // control exiting game
 	sf::Vector2f centrePoint;
 
+	sf::Texture m_nestTexture;
+	sf::Sprite m_nestSprite;
+	std::vector<sf::Sprite> nests;
+
 	sf::Vector2f playerCentre;
 	sf::Vector2f cursorPos;
 	sf::Vector2f aimDir;
 	sf::Vector2f normalisedAimDir;
 
-	int spawnCounter = 20;
+	int spawnCounter = 40;
 	int workerCounter = 20;
 	int bulletCounter = 10;
 
@@ -95,6 +99,8 @@ private:
 	// Create a text
 	sf::Text m_scoreText;
 	sf::Text m_scorePreText;
+
+	int nestCounter = 0;
 };
 
 #endif // !GAME
