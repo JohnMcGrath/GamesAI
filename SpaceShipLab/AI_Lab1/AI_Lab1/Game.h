@@ -17,6 +17,7 @@ class Enemy;
 class Projectile;
 class Bullet;
 class Worker;
+class sf::CircleShape;
 
 static const float VIEW_HEIGHT = 1080.0f;
 
@@ -51,7 +52,8 @@ public:
 	/// <summary>
 	Bullet  b1;
 	std::vector<Bullet> bullets;
-	
+
+	std::vector<sf::CircleShape> hudEnemiesEls;
 
 	Game();
 	~Game();
@@ -74,6 +76,7 @@ private:
 	void EnemyHandler();
 	void WorkerHandler();
 	void BulletHandler();
+	void HUDHandler();
 
 	/// <summary>
 	///Checks for the nearest worker object, causes frame stutter upon starting app if used
@@ -162,6 +165,15 @@ private:
 	sf::Text m_healthPreText;
 
 	int nestCounter = 0;
+
+	/// <summary>
+	///Radar Hud
+	/// <summary>
+	sf::RectangleShape hudMapBack;
+	sf::CircleShape hudPlayerMap;
+	sf::CircleShape hudEnemyMap;
+	sf::CircleShape hudWorkerMap;
+	sf::CircleShape hudBoidMap;
 };
 
 #endif

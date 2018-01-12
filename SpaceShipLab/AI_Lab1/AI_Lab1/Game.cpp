@@ -343,6 +343,33 @@ sf::Vector2f Game::CheckForNearestWorker(sf::Vector2f currentPos)
 		return finalPos;
 }
 
+void Game::HUDHandler()
+{
+	m_scorePreText.setPosition(sf::Vector2f(m_player->getPosition().x - 500, m_player->getPosition().y - 450));
+	m_scoreText.setPosition(sf::Vector2f(m_scorePreText.getPosition().x + (m_scorePreText.getCharacterSize() * (m_scorePreText.getString().getSize() / 1.5)), m_scorePreText.getPosition().y));
+	std::stringstream sc;
+	sc << score;
+	m_scoreText.setString(sc.str().c_str());
+	m_scorePreText.setString("Score: ");
+
+	m_healthPreText.setPosition(m_scorePreText.getPosition().x, m_scorePreText.getPosition().y + 50);
+	m_healthText.setPosition(m_healthPreText.getPosition().x + (m_healthPreText.getCharacterSize() * (m_healthPreText.getString().getSize() / 1.5)), m_healthPreText.getPosition().y);
+	std::stringstream hl;
+	hl << m_player->getHealth();
+	m_healthText.setString(hl.str().c_str());
+	m_healthPreText.setString("Health: ");
+
+	hudMapBack.setPosition(m_player->getPosition().x - 500, m_player->getPosition().y - 350);
+	hudPlayerMap.setPosition(sf::Vector2f(hudMapBack.getPosition().x + (hudMapBack.getSize().x / 2), hudMapBack.getPosition().y + (hudMapBack.getSize().y / 2)));
+
+	for (size_t i = 0; i < enemies.size(); i++)
+	{
+		hudEnemyMap.setPosition(sf::Vector2f(hudMapBack.getPosition().x + (enemies[i].getPosition().x / 8), hudMapBack.getPosition().y + (enemies[i].getPosition().y / 8)));
+		hudEnemiesEls.push_back(hudEnemyMap);
+	}
+	
+}
+
 /// <summary>
 /// Update the game world
 /// </summary>
@@ -355,19 +382,7 @@ void Game::update(sf::Time t_deltaTime)
 		boids.push_back(e3);
 	}
 
-	m_scorePreText.setPosition(sf::Vector2f(m_player->getPosition().x - 500, m_player->getPosition().y - 450));
-	m_scoreText.setPosition(sf::Vector2f(m_scorePreText.getPosition().x + (m_scorePreText.getCharacterSize() * (m_scorePreText.getString().getSize()/1.5)), m_scorePreText.getPosition().y));
-	std::stringstream sc;
-	sc << score;
-	m_scoreText.setString(sc.str().c_str());
-	m_scorePreText.setString("Score: ");
-
-	m_healthPreText.setPosition(m_scorePreText.getPosition().x, m_scorePreText.getPosition().y + 50);
-	m_healthText.setPosition(m_healthPreText.getPosition().x + (m_healthPreText.getCharacterSize() * (m_healthPreText.getString().getSize()/1.5)), m_healthPreText.getPosition().y);
-	std::stringstream hl;
-	hl << m_player->getHealth();
-	m_healthText.setString(hl.str().c_str());
-	m_healthPreText.setString("Health: ");
+	
 
 	//View
 	m_player->Update(centrePoint);
@@ -375,6 +390,7 @@ void Game::update(sf::Time t_deltaTime)
 	//Player
 	playerView.setCenter(m_player->getPosition());
 
+	HUDHandler();
 	BulletHandler();
 	EnemyHandler();
 	WorkerHandler();
@@ -392,7 +408,6 @@ void Game::render()
 {
 	m_window.clear(sf::Color::Black);
 
-
 	m_window.setView(playerView);
 	m_window.draw(m_logoSprite);
 
@@ -407,13 +422,11 @@ void Game::render()
 
 	for (size_t i = 0; i < boids.size(); i++)
 	{
-		//std::cout << nests[i].getPosition().x << " " << nests[i].getPosition().y << std::endl;
 		m_window.draw(boids[i].getSprite());
 	}
 
 	for (size_t i = 0; i < nests.size(); i++)
 	{
-	//	std::cout << nests[i].getPosition().x << " " << nests[i].getPosition().y << std::endl;
 		m_window.draw(nests[i]);
 	}
 
@@ -432,6 +445,10 @@ void Game::render()
 	m_window.draw(m_scorePreText);
 	m_window.draw(m_healthText);
 	m_window.draw(m_healthPreText);
+
+	m_window.draw(hudMapBack);
+	m_window.draw(hudPlayerMap);
+	
 
 	m_window.display();
 }
@@ -473,4 +490,17 @@ void Game::setupSprite()
 	}
 	m_nestSprite.setTexture(m_nestTexture);
 	m_nestSprite.setScale(sf::Vector2f(0.2, 0.2));
+
+	hudMapBack.setSize(sf::Vector2f(m_window.getView().getSize().x / 10, m_window.getView().getSize().y / 10));
+	hudMapBack.setFillColor(sf::Color::White);
+	hudMapBack.setPosition(m_player->getPosition().x - 500, m_player->getPosition().y - 350);
+
+	hudPlayerMap.setFillColor(sf::Color::Red);
+	hudPlayerMap.setRadius(4);
+
+	hudWorkerMap.setFillColor(sf::Color::Blue);
+	hudWorkerMap.setRadius(2);
+
+	hudEnemyMap.setFillColor(sf::Color::Green);
+	hudEnemyMap.setRadius(3);
 }

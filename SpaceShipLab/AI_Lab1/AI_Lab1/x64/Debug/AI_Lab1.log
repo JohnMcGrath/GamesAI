@@ -1,0 +1,13 @@
+﻿  Worker.cpp
+c:\users\mcgra\desktop\ai2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\worker.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Player.cpp
+c:\users\mcgra\desktop\ai2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\player.h(3): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  main.cpp
+c:\users\mcgra\desktop\ai2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\bullet.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Game.cpp
+c:\users\mcgra\desktop\ai2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\bullet.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Enemy.cpp
+c:\users\mcgra\desktop\ai2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\enemy.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Bullet.cpp
+c:\users\mcgra\desktop\ai2018\gamesai\spaceshiplab\ai_lab1\ai_lab1\bullet.h(2): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Generating Code...

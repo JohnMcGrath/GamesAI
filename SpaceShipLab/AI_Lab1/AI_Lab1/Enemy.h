@@ -131,4 +131,10 @@ private:
 	/// Amount of shots an enemies taken
 	/// <summary>
 	int m_hitsTaken = 0;
+
+	/// <summary>
+	/// Vector used to represent sopt on the radar
+	/// <summary>
+	sf::Vector2f hudPos;
+	sf::CircleShape hudShape;
 };
