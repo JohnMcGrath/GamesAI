@@ -1,4 +1,3 @@
-
 #ifndef GAME
 #define GAME
 
@@ -24,22 +23,32 @@ static const float VIEW_HEIGHT = 1080.0f;
 class Game
 {
 public:
-	//Pointer to the player object
+	/// <summary>
+	/// Pointer to the player object
+	/// <summary>
 	Player * m_player = new Player();
 
-	//Blueprint for the Enemies that Spawn from Nests
+	/// <summary>
+	///Blueprint for the Enemies that Spawn from Nests
+	/// <summary>
 	Enemy e1;
 	std::vector<Enemy> enemies;
 
-	//Blueprint for the Workers
+	/// <summary>
+	/// Blueprint for the Workers
+	/// <summary>
 	Enemy e2;
 	std::vector<Enemy> workersEns;
 
-	//Blueprint for the boids
+	/// <summary>
+	///Blueprint for the boids
+	/// <summary>
 	Enemy e3;
 	std::vector<Enemy> boids;
 
-	//Bullets used by entities
+	/// <summary>
+	///Bullets used by entities
+	/// <summary>
 	Bullet  b1;
 	std::vector<Bullet> bullets;
 	
@@ -59,50 +68,73 @@ private:
 	void ResizeView(const sf::RenderWindow& window, sf::View view);
 	void setupSprite();
 
-	//Handle Classes for game entities
+	/// <summary>
+	///Handle Classes for game entities
+	/// <summary>
 	void EnemyHandler();
 	void WorkerHandler();
 	void BulletHandler();
 
-	//Checks for the nearest worker object, causes frame stutter upon starting app if used
+	/// <summary>
+	///Checks for the nearest worker object, causes frame stutter upon starting app if used
+	/// <summary>
 	sf::Vector2f CheckForNearestWorker(sf::Vector2f currentPos);
 
-	// main SFML window
+	/// <summary>
+	/// main SFML window
+	/// <summary>
+
 	sf::RenderWindow m_window; 
-	//View that Follows the player
+	/// <summary>
+	///View that Follows the player
+	/// <summary>
 	sf::View playerView;
 
-	// texture and sprite used for background
+	/// <summary>
+	/// texture and sprite used for background
+	/// <summary>
 	sf::Texture m_logoTexture; 
 	sf::Sprite m_logoSprite; 
 
-	// control exiting game
+	/// <summary>
+	/// control exiting game
+	/// <summary>
 	bool m_exitGame;
 
-	//centre of screen
+	/// <summary>
+	///centre of screen
+	/// <summary>
 	sf::Vector2f centrePoint;
 
 	sf::Texture m_nestTexture;
 	sf::Sprite m_nestSprite;
 	std::vector<sf::Sprite> nests;
 
-	//Vectors used in calculationg where the player is aiming
+	/// <summary>
+	/// Vectors used in calculationg where the player is aiming
+	/// <summary>
 	sf::Vector2f playerCentre;
 	sf::Vector2f cursorPos;
 	sf::Vector2f aimDir;
 	sf::Vector2f normalisedAimDir;
 
-	//Counters used on things that continuosly spawn
+	/// <summary>
+	///Counters used on things that continuosly spawn
+	/// <summary>
 	int spawnCounter = 40;
 	int workerCounter = 20;
 	int bulletCounter = 10;
 
-	//player's score
+	/// <summary>
+	///player's score
+	/// <summary>
 	int score = 0;
 
-	//Floats and rectShapes used to represent bounding boxes
-	//Using .getLocalBounds on objects in vector caused some issues
-	//but this resolves them
+	/// <summary>
+	/// Floats and rectShapes used to represent bounding boxes
+	/// Using .getLocalBounds on objects in vector caused some issues
+	/// but this resolves them
+	/// <summary>
 	sf::FloatRect bulletBound;
 	sf::RectangleShape bulletBoundShape;
 	sf::FloatRect enemyBound;
@@ -112,18 +144,24 @@ private:
 	sf::FloatRect playerBound;
 	sf::RectangleShape playerBoundShap;
 
-	//Font used by all text
+	/// <summary>
+	///Font used by all text
+	/// <summary>
 	sf::Font m_scoreFont;
 
-	//Score UI Hud
+	/// <summary>
+	/// Score UI Hud
+	/// <summary>
 	sf::Text m_scoreText;
 	sf::Text m_scorePreText;
 
-	//Health UI Hud
+	/// <summary>
+	///Health UI Hud
+	/// <summary>
 	sf::Text m_healthText;
 	sf::Text m_healthPreText;
 
 	int nestCounter = 0;
 };
 
-#endif // !GAME
+#endif

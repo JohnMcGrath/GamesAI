@@ -105,14 +105,6 @@ float Enemy::orientate()
 	}
 }
 
-void Enemy::WrapAround(sf::Vector2f screenSize)
-{
-}
-
-float Enemy::Distance(sf::Vector2f t)
-{
-	return sqrt(((t.x - m_position.x)*(t.x - m_position.x)) + ((t.y - m_position.y)*(t.y - m_position.y)));
-}
 
 float Enemy::Magnitude(sf::Vector2f v)
 {
@@ -160,7 +152,7 @@ void Enemy::Initialise(int color) {
 	if (color == 2) m_sprite.setColor(sf::Color::Blue);
 	if (color == 3)
 	{
-		boidTarget = sf::Vector2f(rand() % 1000, rand() % 1000);
+		//boidTarget = sf::Vector2f(rand() % 1000, rand() % 1000);
 		m_sprite.setColor(sf::Color::Cyan);
 	}
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);

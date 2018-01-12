@@ -2,6 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+/*
+NOTE: Currently not used in project, see Enemy.h and Enemy.cpp for the worker objects
+*/
+
 class Worker
 {
 public:
