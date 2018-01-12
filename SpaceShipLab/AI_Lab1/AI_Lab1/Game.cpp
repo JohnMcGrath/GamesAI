@@ -85,10 +85,6 @@ void Game::processEvents()
 	}
 }
 
-void Game::PlayerHandler()
-{
-
-}
 void Game::EnemyHandler()
 {
 	if (spawnCounter < 40)
@@ -136,6 +132,7 @@ void Game::WorkerHandler()
 		if (workerBoundShape.getGlobalBounds().intersects(playerBoundShap.getGlobalBounds()))
 		{
 			workersEns.erase(workersEns.begin() + j);
+			score++;
 			break;
 		}
 	}
@@ -205,6 +202,13 @@ void Game::BulletHandler()
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
+	m_scorePreText.setPosition(sf::Vector2f(m_player->getPosition().x - 500, m_player->getPosition().y - 450));
+	m_scoreText.setPosition(sf::Vector2f(m_scorePreText.getPosition().x + (m_scorePreText.getCharacterSize() * (m_scorePreText.getString().getSize()/1.5)), m_scorePreText.getPosition().y));
+	std::stringstream sc;
+	sc << score;
+	m_scoreText.setString(sc.str().c_str());
+	m_scorePreText.setString("Score: ");
+
 	//View
 	m_player->Update(centrePoint);
 
@@ -248,6 +252,8 @@ void Game::render()
 	}
 
 	m_window.draw(m_player->getSprite());
+	m_window.draw(m_scoreText);
+	m_window.draw(m_scorePreText);
 
 	m_window.display();
 }
@@ -267,4 +273,13 @@ void Game::setupSprite()
 	m_logoSprite.setScale(sf::Vector2f(3.5, 3.5));
 	m_logoSprite.setTexture(m_logoTexture);
 	m_logoTexture.setRepeated(true);
+
+	if (!m_scoreFont.loadFromFile("ASSETS\\FONTS\\ariblk.ttf"))
+	{
+		std::cout << "problem loading font" << std::endl;
+	}
+	m_scorePreText.setFillColor(sf::Color::White);
+	m_scorePreText.setFont(m_scoreFont);
+	m_scoreText.setFillColor(sf::Color::White);
+	m_scoreText.setFont(m_scoreFont);
 }

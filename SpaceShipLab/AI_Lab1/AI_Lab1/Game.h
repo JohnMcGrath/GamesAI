@@ -11,6 +11,7 @@
 #include <vector>
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
 
 class Player;
 class Enemy;
@@ -54,8 +55,9 @@ private:
 	void render();
 	void ResizeView(const sf::RenderWindow& window, sf::View view);
 	void setupSprite();
+
+	//Handle Classes for game entities
 	void EnemyHandler();
-	void PlayerHandler();
 	void WorkerHandler();
 	void BulletHandler();
 
@@ -77,6 +79,8 @@ private:
 	int workerCounter = 20;
 	int bulletCounter = 10;
 
+	int score = 0;
+
 	sf::FloatRect bulletBound;
 	sf::RectangleShape bulletBoundShape;
 	sf::FloatRect enemyBound;
@@ -85,6 +89,12 @@ private:
 	sf::RectangleShape workerBoundShape;
 	sf::FloatRect playerBound;
 	sf::RectangleShape playerBoundShap;
+
+	// Declare and load a font
+	sf::Font m_scoreFont;
+	// Create a text
+	sf::Text m_scoreText;
+	sf::Text m_scorePreText;
 };
 
 #endif // !GAME
