@@ -241,17 +241,21 @@ sf::Vector2f Game::CheckForNearestWorker(sf::Vector2f currentPos)
 {
 	float currentAns = -1;
 	float finalAns = 5000;
-	int pos = 0;
+	sf::Vector2f finalPos;
 	for (size_t i = 0; i < workers.size(); i++)
 	{
-		currentAns = m_player->Magnitude(workers[i].getSprite().getPosition() - currentPos);
-		if (currentAns < finalAns)
-		{
-			finalAns = currentAns;
-			pos = i;
+		sf::Vector2f temp = workers[i].getSprite().getPosition();
+			currentAns = m_player->Magnitude(temp - currentPos);
+			std::cout << currentAns << std::endl;
+			if (currentAns < finalAns)
+			{
+				finalAns = currentAns;
+				finalPos = temp;
+				std::cout << temp.x << " " << temp.y << std::endl;
+			}
 		}
-	}
-	return workers[pos].getPosition();
+		//return workers[pos].getPosition();
+		return finalPos;
 }
 
 /// <summary>
@@ -290,6 +294,13 @@ void Game::update(sf::Time t_deltaTime)
 	EnemyHandler();
 	WorkerHandler();
 	
+
+	for (size_t i = 0; i < boids.size(); i++)
+	{
+	//	sf::Vector2f tempTarget = sf::Vector2f(rand()%1000, rand()%1000);
+		boids[i].Update(boids[i].boidTarget, playerCentre, 1);
+	}
+
 	if (m_exitGame)
 	{
 		m_window.close();
@@ -316,9 +327,15 @@ void Game::render()
 		m_window.draw(enemies[i].getSprite());
 	}
 
+	for (size_t i = 0; i < boids.size(); i++)
+	{
+		//std::cout << nests[i].getPosition().x << " " << nests[i].getPosition().y << std::endl;
+		m_window.draw(boids[i].getSprite());
+	}
+
 	for (size_t i = 0; i < nests.size(); i++)
 	{
-		std::cout << nests[i].getPosition().x << " " << nests[i].getPosition().y << std::endl;
+	//	std::cout << nests[i].getPosition().x << " " << nests[i].getPosition().y << std::endl;
 		m_window.draw(nests[i]);
 	}
 

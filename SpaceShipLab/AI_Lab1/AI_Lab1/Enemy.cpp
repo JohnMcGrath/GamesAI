@@ -158,7 +158,11 @@ void Enemy::Initialise(int color) {
 
 	if (color == 1) m_sprite.setColor(sf::Color::Green);
 	if (color == 2) m_sprite.setColor(sf::Color::Blue);
-	if (color == 3) m_sprite.setColor(sf::Color::White);
+	if (color == 3)
+	{
+		boidTarget = sf::Vector2f(rand() % 1000, rand() % 1000);
+		m_sprite.setColor(sf::Color::Cyan);
+	}
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 	m_sprite.setTexture(m_texture);
 }

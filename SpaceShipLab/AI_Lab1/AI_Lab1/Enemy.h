@@ -48,7 +48,7 @@ public:
 
 	int getHitsTaken() { return m_hitsTaken; }
 	void addHitsTaken(int hit) { m_hitsTaken += hit; }
-
+	sf::Vector2f boidTarget = sf::Vector2f(0, 0);
 private:
 	sf::Vector2f m_velocity;
 	sf::Vector2f m_position = sf::Vector2f(500, 500);
@@ -72,4 +72,5 @@ private:
 	sf::Vector2f aimDirNormal;
 
 	int m_hitsTaken = 0;
+	
 };
