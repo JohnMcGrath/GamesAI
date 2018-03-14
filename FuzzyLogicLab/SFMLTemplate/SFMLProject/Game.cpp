@@ -30,10 +30,8 @@ void Game::setUpFuzzyLogChars(int numOfChars)
 
 void Game::beginStory()
 {
-	for (size_t i = 0; i < characters.size(); i++)
-	{
-		m_fuzFunc->getHighestValue(&characters.at(i));
-	}
+	m_fuzFunc->getHighestValue(&characters.at(0));
+	m_fuzFunc->getHighestValue(&characters.at(1));
 }
 
 void Game::run()

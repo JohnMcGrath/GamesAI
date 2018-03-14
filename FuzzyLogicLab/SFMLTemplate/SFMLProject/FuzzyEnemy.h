@@ -78,6 +78,7 @@ public:
 
 	void checkHealth()
 	{
+		std::cout << std::endl;
 		if (health >= 4)
 		{
 			std::cout << "The " << name << " feels fine" << std::endl;
