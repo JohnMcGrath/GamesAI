@@ -1,10 +1,6 @@
 #pragma once
 #include "FuzzyLogicSets.h"
-#include <stdlib.h>
-#include <time.h>
-#include <map>
-#include <string>
-#include <iostream>
+
 
 class FuzzyLogCharacter
 {
@@ -13,7 +9,20 @@ public:
 
 	std::string name  = "name";
 
+	int health = 5;
+
+	
+
 	std::map<std::string, int> enemyData;
+
+	void setCurrentSkill(std::string skill)
+	{
+		currentSkill = skill;
+	}
+	std::string getCurrentSkill()
+	{
+		return currentSkill;
+	}
 
 	void InititaliseValues()
 	{
@@ -24,8 +33,7 @@ public:
 		enemyData.insert(std::pair<std::string, int>(charisma, rand() % 7));
 		enemyData.insert(std::pair<std::string, int>(intelligance, rand() % 7));
 
-		//Randomise whether a player or enemy
-		if (rand() % 2 == 1)
+		if ((playOrEnem == 0) || (playOrEnem % 2 == 0))
 		{
 			name = "Player";
 		}
@@ -44,7 +52,7 @@ public:
 		enemyData["charisma"] = rand() % 7;
 		enemyData["intelligance"] = rand() % 7;
 
-		if (rand() % 2 == 1)
+		if ((playOrEnem == 0) || (playOrEnem % 2 == 0))
 		{
 			name = "Player";
 		}
@@ -57,6 +65,8 @@ public:
 		outputStats();
 	}
 
+	
+
 	void outputStats()
 	{
 		std::cout << name << " has a Weight of:" << enemyData["weight"] << std::endl;
@@ -66,12 +76,45 @@ public:
 		std::cout << name << " has an Intelligance of:" << enemyData["intelligance"] << std::endl << std::endl;
 	}
 
+	void checkHealth()
+	{
+		if (health >= 4)
+		{
+			std::cout << "The " << name << " feels fine" << std::endl;
+		}
+		else if (health >= 3)
+		{
+			std::cout << "The " << name << " feels a little weak" << std::endl;
+		}
+		else if (health >= 1)
+		{
+			std::cout << "The " << name << " is baddly wounded" << std::endl;
+		}
+		else
+		{
+			std::cout << "The " << name << " fell victims to their wounds and died" << std::endl;
+		}
+	}
+	/*std::string getSkillName(int s)
+	{
+		if (s == 0)
+			return "weight";
+
+		else if (s==1)
+			return "height";
+
+		else if(s == 2)
+			return "strenght";
+
+	}*/
+
 	FuzzyLogCharacter()
 	{
 		srand(time(NULL));
 		InititaliseValues();
 	}
 
+	int playOrEnem = 0;
 private:
-
+	std::string currentSkill;
 };

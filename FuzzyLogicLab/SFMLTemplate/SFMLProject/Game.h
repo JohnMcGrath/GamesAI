@@ -3,7 +3,7 @@
 #define GAME
 
 #include <SFML/Graphics.hpp>
-#include "FuzzyEnemy.h"
+#include "FuzzyLogicFunctions.h"
 
 class Game
 {
@@ -26,6 +26,8 @@ private:
 
 	void setUpFuzzyLogChars(int numOfChars);
 
+	void beginStory();
+
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_ArialBlackfont; // font used by message
 	sf::Text m_welcomeMessage; // text used for message on screen
@@ -35,6 +37,8 @@ private:
 
 	FuzzyLogCharacter protoCharacter;
 	std::vector<FuzzyLogCharacter> characters;
+
+	FuzzyLogicFunctions* m_fuzFunc = new FuzzyLogicFunctions();
 
 
 };

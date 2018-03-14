@@ -20,10 +20,19 @@ Game::~Game()
 
 void Game::setUpFuzzyLogChars(int numOfChars)
 {
-	for (size_t i = 0; i < 5; i++)
+	for (size_t i = 0; i < numOfChars; i++)
 	{
+		protoCharacter.playOrEnem = i;
 		protoCharacter.randomiseStats();
 		characters.push_back(protoCharacter);
+	}
+}
+
+void Game::beginStory()
+{
+	for (size_t i = 0; i < characters.size(); i++)
+	{
+		m_fuzFunc->getHighestValue(&characters.at(i));
 	}
 }
 
@@ -33,7 +42,11 @@ void Game::run()
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	sf::Time timePerFrame = sf::seconds(1.f / 60.f); // 60 fps
 
-	setUpFuzzyLogChars(5);
+	setUpFuzzyLogChars(2);
+	beginStory();
+	m_fuzFunc->compareSkills(&characters.at(0), &characters.at(1));
+	//std::string temp
+	//std::cout << "Highest stat of player 1 is: " << 
 
 	while (m_window.isOpen())
 	{

@@ -1,4 +1,9 @@
 #pragma once
+#include <stdlib.h>
+#include <time.h>
+#include <map>
+#include <string>
+#include <iostream>
 
 class FuzLogSet
 {

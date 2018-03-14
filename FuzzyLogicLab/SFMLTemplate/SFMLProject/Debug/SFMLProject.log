@@ -1,6 +1,2 @@
-﻿  Game.cpp
-c:\users\mcgra\desktop\ai\gamesai\fuzzylogic\sfmltemplate\sfmlproject\fuzzyenemy.h(69): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  main.cpp
-  SFMLProject.vcxproj -> C:\Users\mcgra\Desktop\AI\GamesAI\FuzzyLogic\SFMLTemplate\SFMLProject\Debug\SFMLProject.exe
+﻿  SFMLProject.vcxproj -> C:\Users\User\Desktop\AI\GamesAI\FuzzyLogicLab\SFMLTemplate\SFMLProject\Debug\SFMLProject.exe
+  SFMLProject.vcxproj -> C:\Users\User\Desktop\AI\GamesAI\FuzzyLogicLab\SFMLTemplate\SFMLProject\Debug\SFMLProject.pdb (Partial PDB)
