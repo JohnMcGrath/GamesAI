@@ -18,6 +18,7 @@ public:
 				tempString = tempIt->first;
 			}
 		}
+		highest = 0;
 		std::cout << "The " << fuzChar->name << "'s best skill is their " << tempString << std::endl;
 		fuzChar->setCurrentSkill(tempString);
 		
@@ -48,6 +49,7 @@ public:
 		}
 	}
 
+	//Initital part of the story
 	void firstAttack(FuzzyLogCharacter* c)
 	{
 		if (c->getCurrentSkill() == "weight")
@@ -114,7 +116,6 @@ public:
 			else
 			{
 				std::cout << "The " << e->name << " was smart enough to see just cause he's tall, doesn't mean he's strong" << std::endl;
-				//e->health -= 1;
 				e->checkHealth();
 			}
 		}
@@ -183,6 +184,7 @@ public:
 		}
 	}
 
+	//Compares their two currently chosen skills
 	void compareSkills(FuzzyLogCharacter* p, FuzzyLogCharacter* e)
 	{
 		std::cout<<std::endl;
@@ -236,6 +238,7 @@ public:
 			}
 		}
 	}
+
 private:
 	std::map<std::string, int>::iterator tempIt;
 	int highest = 0;

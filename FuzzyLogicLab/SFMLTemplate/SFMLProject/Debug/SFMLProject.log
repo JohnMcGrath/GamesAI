@@ -1,2 +1,9 @@
-﻿  SFMLProject.vcxproj -> C:\Users\User\Desktop\AI\GamesAI\FuzzyLogicLab\SFMLTemplate\SFMLProject\Debug\SFMLProject.exe
-  SFMLProject.vcxproj -> C:\Users\User\Desktop\AI\GamesAI\FuzzyLogicLab\SFMLTemplate\SFMLProject\Debug\SFMLProject.pdb (Partial PDB)
+﻿  Game.cpp
+c:\users\mcgra\desktop\ai\gamesai\fuzzylogiclab\sfmltemplate\sfmlproject\fuzzyenemy.h(114): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\mcgra\desktop\ai\gamesai\fuzzylogiclab\sfmltemplate\sfmlproject\game.cpp(18): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  main.cpp
+c:\users\mcgra\desktop\ai\gamesai\fuzzylogiclab\sfmltemplate\sfmlproject\fuzzyenemy.h(114): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  SFMLProject.vcxproj -> C:\Users\mcgra\Desktop\AI\GamesAI\FuzzyLogicLab\SFMLTemplate\SFMLProject\Debug\SFMLProject.exe

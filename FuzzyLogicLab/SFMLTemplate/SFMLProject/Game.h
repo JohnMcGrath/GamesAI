@@ -2,8 +2,9 @@
 #ifndef GAME
 #define GAME
 
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 #include "FuzzyLogicFunctions.h"
+#include <vector>
 
 class Game
 {
@@ -18,7 +19,7 @@ public:
 private:
 
 	void processEvents();
-	void update(sf::Time t_deltaTime);
+	//void update(sf::Time t_deltaTime);
 	void render();
 	
 	void setupFontAndText();
@@ -28,11 +29,11 @@ private:
 
 	void beginStory();
 
-	sf::RenderWindow m_window; // main SFML window
-	sf::Font m_ArialBlackfont; // font used by message
-	sf::Text m_welcomeMessage; // text used for message on screen
-	sf::Texture m_logoTexture; // texture used for sfml logo
-	sf::Sprite m_logoSprite; // sprite used for sfml logo
+	//sf::RenderWindow m_window; // main SFML window
+	//sf::Font m_ArialBlackfont; // font used by message
+	//sf::Text m_welcomeMessage; // text used for message on screen
+	//sf::Texture m_logoTexture; // texture used for sfml logo
+	//sf::Sprite m_logoSprite; // sprite used for sfml logo
 	bool m_exitGame; // control exiting game
 
 	FuzzyLogCharacter protoCharacter;
